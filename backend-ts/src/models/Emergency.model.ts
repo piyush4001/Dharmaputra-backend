@@ -6,6 +6,7 @@ export interface IEmergency extends Document {
     lat: number;
     lng: number;
   };
+  triggerType: "BUTTON" | "POWER" | "FALL";
   status: "ACTIVE" | "RESOLVED" | "CANCELLED";
   triggeredAt: Date;
   resolvedAt?: Date;
@@ -23,6 +24,11 @@ const emergencySchema = new Schema<IEmergency>(
       lat: Number,
       lng: Number,
     },
+    triggerType: {
+  type: String,
+  enum: ["BUTTON", "POWER", "FALL"],
+  default: "BUTTON",
+},
 
     status: {
       type: String,

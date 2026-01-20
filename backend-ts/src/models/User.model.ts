@@ -16,6 +16,7 @@ export interface IUser extends Document {
   devices: Types.ObjectId[];
   isActive: boolean;
   lastLogin?: Date;
+  pushTokens: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -63,6 +64,11 @@ const userSchema = new Schema<IUser>(
     lastLogin: {
       type: Date,
     },
+    pushTokens: {
+  type: [String],
+  default: [],
+},
+
   },
   { timestamps: true },
 );

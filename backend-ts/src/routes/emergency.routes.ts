@@ -4,12 +4,20 @@ import { triggerEmergency } from "../controllers/emergency/triggerEmergency.cont
 import { getActiveEmergency } from "../controllers/emergency/getActiveEmergency.controller";
 import { resolveEmergency } from "../controllers/emergency/resolveEmergency.controller";
 import { cancelEmergency } from "../controllers/emergency/cancelEmergency.controller";
-
+import { getFamilySOSAlerts } from "../controllers/emergency/getFamilySOS.contoller";
 const router = Router();
 
-router.post("/trigger", requireAuth, triggerEmergency);
+router.post("/sos", requireAuth, triggerEmergency);
 router.get("/active", requireAuth, getActiveEmergency);
 router.post("/resolve", requireAuth, resolveEmergency);
 router.post("/cancel", requireAuth, cancelEmergency);
+router.get(
+  "/family/sos",
+  requireAuth,
+  getFamilySOSAlerts
+);
+router.get("/test", (_req, res) => {
+  res.json({ ok: true });
+});
 
 export default router;

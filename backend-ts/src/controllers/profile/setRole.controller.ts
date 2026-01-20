@@ -1,4 +1,5 @@
 import { Response } from "express";
+import jwt from "jsonwebtoken";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { User, UserRole } from "../../models/User.model";
 
@@ -29,10 +30,17 @@ export const setRole = async (req: AuthRequest, res: Response) => {
     }
     console.log("Setting role for user:", userId, normalizedRole);
 
+    // Generate new token with updated role
+    const newToken = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET!,
+      { expiresIn: "7d" },
+    );
 
     return res.json({
       message: "Role updated",
       role: user.role,
+      token: newToken,
     });
   } catch (error) {
     console.error("setRole error:", error);
