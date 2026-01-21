@@ -38,6 +38,7 @@ export const setupFamilyProfile = async (
       lastName,
       address,
       phoneNumber: user.phone,
+      seniorIds: [],
     });
 
     return res.status(201).json({

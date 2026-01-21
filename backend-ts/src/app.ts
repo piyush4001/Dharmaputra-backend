@@ -14,7 +14,7 @@ const app = express();
 app.use(
   cors({
     origin: "*", // Allow all origins (you can restrict this in production)
-    credentials: true,
+    credentials: false,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
