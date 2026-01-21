@@ -23,7 +23,9 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
     if (user.role === "SENIOR") {
       profile = await SeniorProfile.findOne({ user: userId });
     } else if (user.role === "FAMILY") {
-      profile = await FamilyProfile.findOne({ user: userId });
+      console.log("Looking for FamilyProfile with userId:", userId);
+      profile = await FamilyProfile.findOne({ userId: userId });
+      console.log("FamilyProfile found:", profile);
     } else if (user.role === "HELPER") {
       profile = await HelperProfile.findOne({ user: userId });
     }

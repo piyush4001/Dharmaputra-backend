@@ -10,6 +10,8 @@ export interface IEmergency extends Document {
   status: "ACTIVE" | "RESOLVED" | "CANCELLED";
   triggeredAt: Date;
   resolvedAt?: Date;
+  respondedAt?: Date;
+  responseStatus?: "RESPONDED" | "UNABLE_TO_REACH";
 }
 
 const emergencySchema = new Schema<IEmergency>(
@@ -43,6 +45,15 @@ const emergencySchema = new Schema<IEmergency>(
 
     resolvedAt: {
       type: Date,
+    },
+
+    respondedAt: {
+      type: Date,
+    },
+
+    responseStatus: {
+      type: String,
+      enum: ["RESPONDED", "UNABLE_TO_REACH"],
     },
   },
   { timestamps: true },
