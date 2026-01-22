@@ -33,6 +33,12 @@ const seniorProfileSchema = new Schema(
     medicalInfo: {
       type: String,
     },
+    familyIds: [
+      {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true },
 );

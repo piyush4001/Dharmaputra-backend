@@ -8,6 +8,7 @@ import { linkSenior } from "../controllers/profile/linkSenior.controller";
 import { getFamilySeniors } from "../controllers/profile/getFamilySeniors.controller";
 import { updateSeniorProfile } from "../controllers/profile/updateSeniorProfile.controller";
 import { updateFamilyProfile } from "../controllers/profile/updateFamilyProfile.controller";
+import { getSeniorFamilyMembers } from "../controllers/profile/getSeniorFamilys.controller";
 const router = Router();
 
 
@@ -22,5 +23,11 @@ router.get(
   requireAuth,
   getFamilySeniors,
 );
+router.get(
+  "/senior/family",
+  requireAuth,
+  getSeniorFamilyMembers
+);
+
 router.put("/family", requireAuth, updateFamilyProfile);
 export default router;
