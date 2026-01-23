@@ -9,8 +9,9 @@ import { getFamilySeniors } from "../controllers/profile/getFamilySeniors.contro
 import { updateSeniorProfile } from "../controllers/profile/updateSeniorProfile.controller";
 import { updateFamilyProfile } from "../controllers/profile/updateFamilyProfile.controller";
 import { getSeniorFamilyMembers } from "../controllers/profile/getSeniorFamilys.controller";
-const router = Router();
 
+import { unlinkSeniorFamily } from "../controllers/profile/unlinkSeniorFamily";
+const router = Router();
 
 router.post("/set-role", requireAuth, setRole);
 router.post("/senior", requireAuth, setupSeniorProfile);
@@ -30,4 +31,14 @@ router.get(
 );
 
 router.put("/family", requireAuth, updateFamilyProfile);
+router.post(
+  "/unlink",
+  requireAuth,
+  unlinkSeniorFamily
+);
+// router.post("/unlink", (req, res) => {
+//   console.log("🔥 UNLINK ROUTE HIT");
+//   return res.json({ ok: true });
+// });
+
 export default router;

@@ -1,26 +1,59 @@
 import { Response } from "express";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { Emergency } from "../../models/Emergency.model";
-import { FamilyProfile } from "../../models/Role/FamilyProfile.model";
 
-export const getFamilySOSAlerts = async (
+export const getFamilyActiveEmergencies = async (
   req: AuthRequest,
   res: Response
 ) => {
-  const { userId } = req.auth!;
+  try {
+    const emergencies = await Emergency.aggregate([
+      { $match: { status: "ACTIVE" } },
 
-  const familyProfile = await FamilyProfile.findOne({ userId });
+      // 🔗 User (phone)
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
 
-  if (!familyProfile || !familyProfile.seniorIds.length) {
-    return res.json([]);
+      // 🔗 SeniorProfile (name)
+      {
+        $lookup: {
+          from: "seniorprofiles",
+          localField: "user._id",
+          foreignField: "user",
+          as: "seniorProfile",
+        },
+      },
+      {
+        $unwind: {
+          path: "$seniorProfile",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      // 🎯 Final response shape
+      {
+        $project: {
+          _id: 1,
+          triggerType: 1,
+          status: 1,
+          triggeredAt: 1,
+          "user.phone": 1,
+          "seniorProfile.firstName": 1,
+          "seniorProfile.surname": 1,
+        },
+      },
+    ]);
+
+    return res.json(emergencies);
+  } catch (error) {
+    console.error("getFamilySOS error:", error);
+    return res.status(500).json({ message: "Failed to fetch SOS" });
   }
-
-  const sosList = await Emergency.find({
-    userId: { $in: familyProfile.seniorIds },
-    status: "ACTIVE",
-  })
-    .populate("userId", "firstName surname phone")
-    .sort({ createdAt: -1 });
-
-  res.json(sosList);
 };

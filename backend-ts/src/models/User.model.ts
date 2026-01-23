@@ -12,6 +12,7 @@ export interface IUser extends Document {
   name?: string;
   phone: string;
   role: UserRole | null;
+  
   emergencyContacts: Types.ObjectId[];
   devices: Types.ObjectId[];
   isActive: boolean;

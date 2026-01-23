@@ -12,6 +12,7 @@ export const getFamilyAlerts = async (
     const alerts = await SeniorLinkRequest.find({
       familyId: userId,
       status: { $in: ["APPROVED", "REJECTED"] },
+      isDeletedByFamily: false,
     })
       .populate("seniorId", "firstName surname phone")
       .sort({ updatedAt: -1 });

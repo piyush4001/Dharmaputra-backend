@@ -1,53 +1,88 @@
+// import { Response } from "express";
+// import { AuthRequest } from "../../middlewares/auth.middleware";
+// import { Emergency } from "../../models/Emergency.model";
+
+// export const respondEmergency = async (
+//   req: AuthRequest,
+//   res: Response
+// ) => {
+//   try {
+//     const { emergencyId, status } = req.body;
+
+//     if (!emergencyId || !status) {
+//       return res.status(400).json({
+//         message: "Emergency ID and status are required",
+//       });
+//     }
+
+//     if (!["RESPONDED", "UNABLE_TO_REACH"].includes(status)) {
+//       return res.status(400).json({
+//         message: "Invalid status. Must be RESPONDED or UNABLE_TO_REACH",
+//       });
+//     }
+
+//     // Update emergency with response status
+//     const emergency = await Emergency.findByIdAndUpdate(
+//       emergencyId,
+//       {
+//         status: status === "RESPONDED" ? "RESOLVED" : "ACTIVE",
+//         respondedAt: new Date(),
+//         responseStatus: status,
+//       },
+//       { new: true }
+//     );
+
+//     if (!emergency) {
+//       return res.status(404).json({
+//         message: "Emergency not found",
+//       });
+//     }
+
+//     console.log(`Emergency ${emergencyId} marked as ${status}`);
+
+//     return res.json({
+//       message: `Emergency ${status === "RESPONDED" ? "acknowledged" : "marked unable to reach"}`,
+//       emergency,
+//     });
+//   } catch (error) {
+//     console.error("respondEmergency error:", error);
+//     return res.status(500).json({
+//       message: "Failed to respond to emergency",
+//     });
+//   }
+// };
 import { Response } from "express";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { Emergency } from "../../models/Emergency.model";
+import mongoose from "mongoose";
 
-export const respondEmergency = async (
-  req: AuthRequest,
-  res: Response
-) => {
+export const respondEmergency = async (req: AuthRequest, res: Response) => {
   try {
+    const { userId } = req.auth!;
     const { emergencyId, status } = req.body;
 
-    if (!emergencyId || !status) {
-      return res.status(400).json({
-        message: "Emergency ID and status are required",
-      });
-    }
-
     if (!["RESPONDED", "UNABLE_TO_REACH"].includes(status)) {
-      return res.status(400).json({
-        message: "Invalid status. Must be RESPONDED or UNABLE_TO_REACH",
-      });
+      return res.status(400).json({ message: "Invalid status" });
     }
 
-    // Update emergency with response status
-    const emergency = await Emergency.findByIdAndUpdate(
-      emergencyId,
-      {
-        status: status === "RESPONDED" ? "RESOLVED" : "ACTIVE",
-        respondedAt: new Date(),
-        responseStatus: status,
-      },
-      { new: true }
-    );
-
+    const emergency = await Emergency.findById(emergencyId);
     if (!emergency) {
-      return res.status(404).json({
-        message: "Emergency not found",
-      });
+      return res.status(404).json({ message: "Emergency not found" });
     }
 
-    console.log(`Emergency ${emergencyId} marked as ${status}`);
+    emergency.responseStatus = status;
+    emergency.respondedBy = new mongoose.Types.ObjectId(userId);
+    emergency.respondedAt = new Date();
 
-    return res.json({
-      message: `Emergency ${status === "RESPONDED" ? "acknowledged" : "marked unable to reach"}`,
-      emergency,
-    });
-  } catch (error) {
-    console.error("respondEmergency error:", error);
-    return res.status(500).json({
-      message: "Failed to respond to emergency",
-    });
+    if (status === "RESPONDED") {
+      emergency.status = "RESOLVED";
+    }
+
+    await emergency.save();
+
+    return res.json({ message: "Emergency updated", emergency });
+  } catch (err) {
+    console.error("respondEmergency error:", err);
+    return res.status(500).json({ message: "Failed to respond" });
   }
 };

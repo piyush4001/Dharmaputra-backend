@@ -11,6 +11,8 @@ import alertsRoutes from "./routes/alerts.routes";
 const app = express();
 
 // Enable CORS for all routes
+
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: "*", // Allow all origins (you can restrict this in production)
@@ -19,6 +21,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+
+
 
 // Parse JSON body
 app.use(express.json());

@@ -25,3 +25,74 @@ export const getActiveEmergency = async (req: AuthRequest, res: Response) => {
     });
   }
 };
+
+// import { Response } from "express";
+// import { AuthRequest } from "../../middlewares/auth.middleware";
+// import { Emergency } from "../../models/Emergency.model";
+// import { Types } from "mongoose";
+
+// export const getFamilyActiveEmergencies = async (
+//   req: AuthRequest,
+//   res: Response
+// ) => {
+//   try {
+//     const { userId } = req.auth!;
+
+//     const emergencies = await Emergency.aggregate([
+//       {
+//         $match: {
+//           status: "ACTIVE",
+//         },
+//       },
+
+//       // 🔗 join User
+//       {
+//         $lookup: {
+//           from: "users",
+//           localField: "userId",
+//           foreignField: "_id",
+//           as: "user",
+//         },
+//       },
+//       { $unwind: "$user" },
+
+//       // 🔗 join SeniorProfile using user._id
+//       {
+//         $lookup: {
+//           from: "seniorprofiles",
+//           localField: "user._id",
+//           foreignField: "user",
+//           as: "seniorProfile",
+//         },
+//       },
+//       {
+//         $unwind: {
+//           path: "$seniorProfile",
+//           preserveNullAndEmptyArrays: true,
+//         },
+//       },
+
+//       // 🎯 shape response
+//       {
+//         $project: {
+//           _id: 1,
+//           status: 1,
+//           triggerType: 1,
+//           createdAt: 1,
+//           "user.phone": 1,
+//           "seniorProfile.firstName": 1,
+//           "seniorProfile.surname": 1,
+//         },
+//       },
+//     ]);
+//     console.log(emergencies);
+
+//     return res.json(emergencies);
+//   } catch (error) {
+//     console.error("getFamilyActiveEmergencies error:", error);
+//     return res.status(500).json({
+//       message: "Failed to fetch emergencies",
+//     });
+//   }
+// };
+

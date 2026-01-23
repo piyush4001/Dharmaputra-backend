@@ -5,12 +5,16 @@ export interface IFamilyProfile extends Document {
   lastName: string;
   address?: string;
   phoneNumber?: string;
+
   userId: Types.ObjectId; // family member (logged-in user)
-  seniorIds: Types.Array<FamilyRelation>; // linked senior
+
+  seniorIds: Types.Array<Types.ObjectId>; // ✅ linked seniors (User IDs)
+
   relation: FamilyRelation;
-  customRelation?: string; // if relation === OTHER
+  customRelation?: string;
   isPrimaryContact: boolean;
 }
+
 
 export enum FamilyRelation {
   SON = "SON",
