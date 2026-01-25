@@ -12,7 +12,7 @@ export const updateSeniorProfile = async (
 
     const {
       firstName,
-      surname,
+      lastName,
       age,
       address,
       emergencyContact,
@@ -22,7 +22,7 @@ export const updateSeniorProfile = async (
     // 1️⃣ Update name fields in User model
     await User.findByIdAndUpdate(userId, {
       firstName,
-      surname,
+      lastName,
     });
 
     // 2️⃣ Update senior profile

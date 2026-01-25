@@ -8,6 +8,7 @@ import { errorMiddleware } from "./middlewares/error.middleware";
 import { apiRateLimiter } from "./middlewares/rateLimit.middleware";
 import profileRoutes from "./routes/profile.routes";
 import alertsRoutes from "./routes/alerts.routes";
+import adminRoutes from './routes/admin.routes'; 
 const app = express();
 
 // Enable CORS for all routes
@@ -41,6 +42,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/emergency", emergencyRoutes);
 app.use("/api/alerts", alertsRoutes);
+app.use('/api/admin', adminRoutes);
 // Health check
 app.get("/api/health", (_req, res) => {
   res.json({ status: "OK" });

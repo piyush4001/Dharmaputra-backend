@@ -32,8 +32,8 @@ export const getSeniorFamilyMembers = async (
     const familyMembers = familyProfiles.map((f) => ({
       _id: f.userId,
       firstName: f.firstName,
-      surname: f.lastName,
-      phone: f.phoneNumber || "",
+      lastName: f.lastName,
+      phone: f.phone || "",
     }));
     console.log("Family members found:", familyMembers);
     return res.json(familyMembers);
@@ -70,14 +70,14 @@ export const getSeniorFamilyMembers = async (
 
 //     const familyProfiles = await FamilyProfile.find(
 //       { userId: { $in: seniorProfile.familyIds } },
-//       "firstName lastName phoneNumber userId"
+//       "firstName lastName phone userId"
 //     );
 
 //     const formatted = familyProfiles.map((f) => ({
 //       _id: f.userId,
 //       firstName: f.firstName,
-//       surname: f.lastName,
-//       phone: f.phoneNumber,
+//       lastName: f.lastName,
+//       phone: f.phone,
 //     }));
 
 //     return res.json(formatted);

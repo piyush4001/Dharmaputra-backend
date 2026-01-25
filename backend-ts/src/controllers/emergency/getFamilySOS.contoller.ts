@@ -46,7 +46,7 @@ export const getFamilyActiveEmergencies = async (
           triggeredAt: 1,
           "user.phone": 1,
           "seniorProfile.firstName": 1,
-          "seniorProfile.surname": 1,
+          "seniorProfile.lastName": 1,
         },
       },
     ]);

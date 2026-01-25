@@ -4,7 +4,7 @@ export interface IFamilyProfile extends Document {
   firstName: string;
   lastName: string;
   address?: string;
-  phoneNumber?: string;
+  phone?: string;
 
   userId: Types.ObjectId; // family member (logged-in user)
 
@@ -13,6 +13,8 @@ export interface IFamilyProfile extends Document {
   relation: FamilyRelation;
   customRelation?: string;
   isPrimaryContact: boolean;
+  isApproved: boolean;
+  approvedAt?: Date;
 }
 
 
@@ -50,7 +52,7 @@ const familyProfileSchema = new Schema<IFamilyProfile>(
       type: String,
       trim: true,
     },
-    phoneNumber: {
+    phone: {
       type: String,
       trim: true,
     },
@@ -75,6 +77,13 @@ const familyProfileSchema = new Schema<IFamilyProfile>(
     isPrimaryContact: {
       type: Boolean,
       default: false,
+    },
+     isApproved: {
+      type: Boolean,
+      default: false,
+    },
+    approvedAt: {
+      type: Date,
     },
   },
   { timestamps: true },

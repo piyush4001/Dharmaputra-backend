@@ -14,7 +14,7 @@ export const getFamilyAlerts = async (
       status: { $in: ["APPROVED", "REJECTED"] },
       isDeletedByFamily: false,
     })
-      .populate("seniorId", "firstName surname phone")
+      .populate("seniorId", "firstName lastName phone")
       .sort({ updatedAt: -1 });
 
     return res.json(alerts);

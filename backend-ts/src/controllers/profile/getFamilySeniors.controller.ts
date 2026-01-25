@@ -36,7 +36,7 @@ export const getFamilySeniors = async (
           _id: seniorUserId._id,
           phone: seniorUserId.phone,
           firstName: seniorProfile?.firstName || "Senior",
-          surname: seniorProfile?.surname || "",
+          lastName: seniorProfile?.lastName || "",
           age: seniorProfile?.age,
           address: seniorProfile?.address,
           medicalInfo: seniorProfile?.medicalInfo,

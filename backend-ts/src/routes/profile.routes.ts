@@ -9,8 +9,11 @@ import { getFamilySeniors } from "../controllers/profile/getFamilySeniors.contro
 import { updateSeniorProfile } from "../controllers/profile/updateSeniorProfile.controller";
 import { updateFamilyProfile } from "../controllers/profile/updateFamilyProfile.controller";
 import { getSeniorFamilyMembers } from "../controllers/profile/getSeniorFamilys.controller";
-
+import { setupHelperProfile } from "../controllers/profile/setupHelper.controller";
 import { unlinkSeniorFamily } from "../controllers/profile/unlinkSeniorFamily";
+import { getHelperLinkedSeniors } from "../controllers/profile/getHelperSeniors.controller";
+import { linkSeniorByHelper } from "../controllers/profile/linkSeniorByHelper.controller";
+import { updateHelperProfile } from "../controllers/profile/updateHelper.controller";
 const router = Router();
 
 router.post("/set-role", requireAuth, setRole);
@@ -36,9 +39,29 @@ router.post(
   requireAuth,
   unlinkSeniorFamily
 );
-// router.post("/unlink", (req, res) => {
-//   console.log("🔥 UNLINK ROUTE HIT");
-//   return res.json({ ok: true });
+router.post(
+  "/helper/setup",
+  requireAuth,
+  setupHelperProfile
+);
+router.get(
+  "/helper/seniors",
+  requireAuth,
+  getHelperLinkedSeniors
+);
+router.post(
+  "/helper/link-senior",
+  requireAuth,
+  linkSeniorByHelper
+);
+router.put(
+  "/helper",
+  requireAuth,
+  updateHelperProfile
+);
+// router.get("/helper", (req, res) => {
+//   res.json({ ok: true, method: "GET" });
 // });
+
 
 export default router;

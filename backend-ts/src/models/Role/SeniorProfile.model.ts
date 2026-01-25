@@ -8,11 +8,16 @@ const seniorProfileSchema = new Schema(
       required: true,
       unique: true,
     },
+    phone: {
+      type: String,
+     // required: true,
+      index: true,
+    },
     firstName: {
       type: String,
       required: true,
     },
-    surname: {
+    lastName: {
       type: String,
       default: "",
     },
@@ -39,6 +44,20 @@ const seniorProfileSchema = new Schema(
         ref: "User",
       },
     ],
+    helperIds: [
+      {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    isApproved: {
+      type: Boolean,
+      default: false,
+    },
+
+    approvedAt: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );

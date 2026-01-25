@@ -56,7 +56,7 @@ export const linkSenior = async (req: AuthRequest, res: Response) => {
       seniorId: senior._id,
       familyId: userId,
       familyName: `${familyProfile.firstName} ${familyProfile.lastName}`,
-      familyPhone: familyProfile.phoneNumber,
+      familyPhone: familyProfile.phone,
       relation,
     });
 

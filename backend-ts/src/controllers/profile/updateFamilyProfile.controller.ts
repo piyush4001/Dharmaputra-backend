@@ -51,7 +51,7 @@ export const updateFamilyProfile = async (
       firstName,
       lastName,
       address,
-      phoneNumber,
+      phone,
       relation,
     //  customRelation,
       isPrimaryContact,
@@ -67,7 +67,7 @@ export const updateFamilyProfile = async (
     if (firstName !== undefined) profile.firstName = firstName;
     if (lastName !== undefined) profile.lastName = lastName;
     if (address !== undefined) profile.address = address;
-    if (phoneNumber !== undefined) profile.phoneNumber = phoneNumber;
+    if (phone !== undefined) profile.phone = phone;
 
     /* -------- RELATION -------- */
     if (relation !== undefined) {

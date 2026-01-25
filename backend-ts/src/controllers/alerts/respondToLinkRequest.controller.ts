@@ -145,7 +145,11 @@ export const respondToLinkRequest = async (
     if (!familyProfile.seniorIds.includes(request.seniorId)) {
       familyProfile.seniorIds.push(request.seniorId);
     }
-
+    if(request.familyId === undefined || request.familyId === null) {
+      return res.status(400).json({
+        message: "Invalid family ID in request",
+      });
+    }
     if (!seniorProfile.familyIds.includes(request.familyId)) {
       seniorProfile.familyIds.push(request.familyId);
     }

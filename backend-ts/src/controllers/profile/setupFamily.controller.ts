@@ -37,7 +37,7 @@ export const setupFamilyProfile = async (
       firstName,
       lastName,
       address,
-      phoneNumber: user.phone,
+      phone: user.phone,
       seniorIds: [],
     });
 

@@ -81,7 +81,7 @@ export const getActiveEmergency = async (req: AuthRequest, res: Response) => {
 //           createdAt: 1,
 //           "user.phone": 1,
 //           "seniorProfile.firstName": 1,
-//           "seniorProfile.surname": 1,
+//           "seniorProfile.lastName": 1,
 //         },
 //       },
 //     ]);
