@@ -18,7 +18,7 @@ export const linkSeniorByHelper = async (
       });
     }
 
-    /* 1️⃣ Find senior user */
+    /* 1️⃣ Find senior */
     const senior = await User.findOne({
       phone: seniorPhone,
       role: "SENIOR",
@@ -30,7 +30,16 @@ export const linkSeniorByHelper = async (
       });
     }
 
-    /* 2️⃣ Get helper profile */
+    /* 2️⃣ Find helper USER (🔥 source of truth) */
+    const helperUser = await User.findById(userId).select("phone");
+
+    if (!helperUser || !helperUser.phone) {
+      return res.status(400).json({
+        message: "Helper phone not found",
+      });
+    }
+
+    /* 3️⃣ Get helper profile (for name only) */
     const helperProfile = await HelperProfile.findOne({
       user: userId,
     });
@@ -41,11 +50,12 @@ export const linkSeniorByHelper = async (
       });
     }
 
-    /* 3️⃣ Prevent duplicate pending request */
+    /* 4️⃣ Prevent duplicate request */
     const existingRequest = await SeniorLinkRequest.findOne({
       seniorId: senior._id,
       helperId: userId,
       status: "PENDING",
+      requestType: "HELPER",
     });
 
     if (existingRequest) {
@@ -54,15 +64,15 @@ export const linkSeniorByHelper = async (
       });
     }
 
-    /* 4️⃣ Create link request */
+    /* 5️⃣ CREATE LINK REQUEST (✅ GUARANTEED PHONE) */
     await SeniorLinkRequest.create({
       seniorId: senior._id,
+
       helperId: userId,
-
       helperName: `${helperProfile.firstName} ${helperProfile.lastName}`,
-      //helperPhone: helperProfile.phone,
+      helperPhone: helperUser.phone, // ✅ FIXED
 
-      requestType: "HELPER", // ⭐ IMPORTANT (differentiate)
+      requestType: "HELPER",
     });
 
     return res.status(200).json({

@@ -3,6 +3,8 @@ import { AdminRole } from '../constants/roles';
 
 import { requireAdminAuth } from '../middlewares/auth.middleware';
 import { requireAdminRole } from '../middlewares/role.middleware';
+// Feedbacks
+import { getAllFeedbacks } from '../controllers/admin/feedback.controller';
 
 /* ================= CONTROLLERS ================= */
 
@@ -18,6 +20,9 @@ import { toggleAdminStatus } from '../controllers/admin/toggleAdminStatus.contro
 import { getDashboardStats } from '../controllers/admin/dashboardStats.controller';
 import { getDashboardCharts } from '../controllers/admin/charts.controller';
 import { getRecentSOS } from '../controllers/admin/recentSOS.controller';
+
+
+
 
 // Users
 import { getAdminUsers } from '../controllers/admin/user.controller';
@@ -46,6 +51,7 @@ import {
 } from '../controllers/admin/link.controller';
 
 const router = Router();
+console.log("🔥 ADMIN ROUTES (TS) LOADED 🔥");
 
 /* ================= PUBLIC ================= */
 router.post('/login', adminLogin);
@@ -181,5 +187,14 @@ router.post(
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
   unlinkFamilyFromSenior,
 );
+
+/* ================= FEEDBACKS ================= */
+router.get(
+  '/feedbacks',
+  // requireAdminAuth,
+  // requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
+  getAllFeedbacks,
+);
+
 
 export default router;

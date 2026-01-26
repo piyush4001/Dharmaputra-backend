@@ -51,7 +51,7 @@ const helperProfileSchema = new Schema(
     /* ---------------- DOCUMENTS ---------------- */
     aadhaarFile: {
       type: String, // Cloudinary / S3 URL
-      required: true,
+      default:null
     },
 
     /* ---------------- EDUCATION ---------------- */

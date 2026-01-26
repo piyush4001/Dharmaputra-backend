@@ -4,7 +4,7 @@ import { getToken } from "@/utils/storage";
 
 const BASE_URL =
   Platform.OS === "web"
-    ? "http://localhost:5000/api"
+    ? "${API_BASE_URL}"
     : "https://uncontrovertible-unincisive-elouise.ngrok-free.dev/api";
 
 console.log("BASE_URL USED BY APP:", BASE_URL);

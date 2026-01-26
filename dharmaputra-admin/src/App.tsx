@@ -14,6 +14,7 @@ import SeniorsList from "./pages/seniors/SeniorsList";
 import FamiliesList from "./pages/families/FamiliesList";
 import SeniorDetail from "./pages/seniors/SeniorDetail";
 import FamilyDetail from "./pages/families/FamilyDetail";
+import FeedbackList from "./pages/feedback/FeedbackList";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path="families" element={<FamiliesList />} />
             <Route path="seniors/:id" element={<SeniorDetail />} />
             <Route path="families/:id" element={<FamilyDetail />} />
+            <Route path="feedbacks" element={<FeedbackList />} />
           </Route>
 
           {/* SUPER ADMIN AREA */}
