@@ -1,31 +1,3 @@
-<<<<<<< HEAD
-// import { Request, Response } from 'express';
-// import { User } from '../../models/User.model';
-
-// /**
-//  * GET /api/admin/users
-//  * Returns Seniors + Family members only
-//  */
-// export const getAdminUsers = async (req: Request, res: Response) => {
-//   try {
-//     const users = await User.find({
-//       role: { $in: ['SENIOR', 'FAMILY'] },
-//     })
-//       .select('_id name phone role isActive createdAt')
-//       .sort({ createdAt: -1 })
-//       .lean();
-
-//     return res.status(200).json(users);
-//   } catch (err) {
-//     console.error('ADMIN USERS ERROR:', err);
-//     return res.status(500).json({
-//       message: 'Failed to fetch users',
-//     });
-//   }
-// };
-
-=======
->>>>>>> origin/krishnapal
 import { Request, Response } from 'express';
 import { User } from '../../models/User.model';
 import { SeniorProfile } from '../../models/Role/SeniorProfile.model';
