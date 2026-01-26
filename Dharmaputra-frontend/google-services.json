@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "787167494072",
+    "project_id": "dharmapurta-aeb56",
+    "storage_bucket": "dharmapurta-aeb56.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787167494072:android:afdb4d081a793f86fa994d",
+        "android_client_info": {
+          "package_name": "com.piyush.dharmaputra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIj7sBlaxVfvTj7zQb5Hyphz45u-SJe1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
