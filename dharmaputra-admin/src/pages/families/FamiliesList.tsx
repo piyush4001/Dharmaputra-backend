@@ -6,7 +6,7 @@ type Family = {
   _id: string;
   firstName: string;
   lastName: string;
-  phoneNumber?: string;
+  phone?: string;
   relation?: string;
   customRelation?: string;
   isPrimaryContact?: boolean;
@@ -67,7 +67,7 @@ export default function FamiliesList() {
                   <td className="p-3 font-medium">
                     {family.firstName} {family.lastName}
                   </td>
-                  <td className="p-3">{family.phoneNumber ?? "—"}</td>
+                  <td className="p-3">{family.phone ?? "—"}</td>
                   <td className="p-3">
                     {family.relation === "OTHER"
                       ? family.customRelation ?? "OTHER"

@@ -30,6 +30,14 @@ const seniorProfileSchema = new Schema(
       type: String,
       required: true,
     },
+    profileImage: {
+      type: String,
+      required: true, // or false if you want optional
+    },
+    idCardImage: {
+      type: String,
+      default: null,
+    },
 
     emergencyContact: {
       type: String,

@@ -1,61 +1,15 @@
-// import { Schema, model, Types } from "mongoose";
 
-// export enum LinkRequestStatus {
-//   PENDING = "PENDING",
-//   APPROVED = "APPROVED",
-//   REJECTED = "REJECTED",
-// }
-
-// const seniorLinkRequestSchema = new Schema(
-//   {
-//     seniorId: {
-//       type: Types.ObjectId,
-//       ref: "User",
-//       required: true,
-//     },
-//     familyId: {
-//       type: Types.ObjectId,
-//       ref: "User",
-//       required: true,
-//     },
-
-//     familyName: {
-//       type: String,
-//       required: true,
-//     },
-//     familyPhone: {
-//       type: String,
-//       required: true,
-//     },
-//     relation: {
-//       type: String,
-//       required: true,
-//     },
-
-//     status: {
-//       type: String,
-//       enum: Object.values(LinkRequestStatus),
-//       default: LinkRequestStatus.PENDING,
-//     },
-//   },
-//   { timestamps: true }
-// );
-
-// export const SeniorLinkRequest = model(
-//   "SeniorLinkRequest",
-//   seniorLinkRequestSchema
-// );
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types } from 'mongoose';
 
 export enum LinkRequestStatus {
-  PENDING = "PENDING",
-  APPROVED = "APPROVED",
-  REJECTED = "REJECTED",
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
 }
 
 export enum LinkRequestType {
-  FAMILY = "FAMILY",
-  HELPER = "HELPER",
+  FAMILY = 'FAMILY',
+  HELPER = 'HELPER',
 }
 
 const seniorLinkRequestSchema = new Schema(
@@ -64,13 +18,15 @@ const seniorLinkRequestSchema = new Schema(
     seniorId: {
       type: Types.ObjectId,
       ref: "User",
+
       required: true,
     },
 
     /* ================= FAMILY FLOW ================= */
     familyId: {
       type: Types.ObjectId,
-      ref: "User",
+
+      ref: 'User',
       required: function () {
         return this.requestType === LinkRequestType.FAMILY;
       },
@@ -100,7 +56,7 @@ const seniorLinkRequestSchema = new Schema(
     /* ================= HELPER FLOW ================= */
     helperId: {
       type: Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: function () {
         return this.requestType === LinkRequestType.HELPER;
       },
@@ -133,10 +89,10 @@ const seniorLinkRequestSchema = new Schema(
       default: LinkRequestStatus.PENDING,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const SeniorLinkRequest = model(
-  "SeniorLinkRequest",
-  seniorLinkRequestSchema
+  'SeniorLinkRequest',
+  seniorLinkRequestSchema,
 );

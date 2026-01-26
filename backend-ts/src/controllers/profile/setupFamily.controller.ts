@@ -1,23 +1,39 @@
 import { Response } from "express";
+import fs from "fs";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { FamilyProfile } from "../../models/Role/FamilyProfile.model";
 import { User } from "../../models/User.model";
+import { uploadImage } from "../../utils/cloudinary";
 
 export const setupFamilyProfile = async (
   req: AuthRequest,
   res: Response
 ) => {
   try {
-    const { userId } = req.auth!;
-    const { firstName, lastName, address } = req.body;
+    const { userId, role } = req.auth!;
 
-    if (!firstName || !lastName) {
-      return res.status(400).json({
-        message: "First name and last name are required",
+    // 🔐 Only family users can create profile
+    if (role !== "FAMILY") {
+      return res.status(403).json({
+        message: "Only family users can create family profile",
       });
     }
 
-    // 1️⃣ Check if family profile already exists
+    const { firstName, lastName, address } = req.body;
+
+    if (!firstName || !lastName || !address) {
+      return res.status(400).json({
+        message: "First name, last name and address are required",
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Profile image is required",
+      });
+    }
+
+    // 🚫 Prevent duplicate profile setup
     const existingProfile = await FamilyProfile.findOne({ userId });
     if (existingProfile) {
       return res.status(409).json({
@@ -25,20 +41,28 @@ export const setupFamilyProfile = async (
       });
     }
 
-    // 2️⃣ Get phone number from User (OTP login)
+    // 📞 Phone from User (OTP source of truth)
     const user = await User.findById(userId).select("phone");
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
 
-    // 3️⃣ Create family profile
+    // ☁️ Upload profile image
+    const uploaded = await uploadImage(req.file.path);
+    fs.unlinkSync(req.file.path); // cleanup temp file
+
+    // ✅ Create family profile
     const profile = await FamilyProfile.create({
       userId,
       firstName,
       lastName,
       address,
       phone: user.phone,
+      profileImage: uploaded.secure_url,
       seniorIds: [],
+      helperIds: [],
     });
 
     return res.status(201).json({

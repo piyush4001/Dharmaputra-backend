@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { Request, Response } from 'express';
 // import { User } from '../../models/User.model';
 
@@ -23,6 +24,8 @@
 //   }
 // };
 
+=======
+>>>>>>> origin/krishnapal
 import { Request, Response } from 'express';
 import { User } from '../../models/User.model';
 import { SeniorProfile } from '../../models/Role/SeniorProfile.model';

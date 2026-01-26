@@ -71,7 +71,8 @@ export const getSeniorById = async (req: AdminAuthRequest, res: Response) => {
 
     const senior = await SeniorProfile.findById(id)
       .select(
-        'firstName lastName age address emergencyContact medicalInfo createdAt  isApproved approvedAt',
+
+        'firstName lastName age address emergencyContact profileImage medicalInfo createdAt  isApproved approvedAt idCardImage',
       )
       .lean();
 
@@ -120,7 +121,9 @@ export const getLinkedFamiliesBySenior = async (
       seniorIds: senior.user, // ✅ CORRECT
     })
       .select(
-        'firstName lastName phoneNumber relation customRelation isPrimaryContact',
+
+        'firstName lastName phone relation customRelation isPrimaryContact',
+
       )
       .lean();
 

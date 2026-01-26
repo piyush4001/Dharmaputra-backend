@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AdminRole } from '../constants/roles';
+import { AdminRole } from "../constants/roles";
 
 export interface AuthPayload {
   userId: string;
@@ -9,12 +9,13 @@ export interface AuthPayload {
 
 export interface AuthRequest extends Request {
   auth?: AuthPayload;
+  file?: Express.Multer.File;
 }
 
 export const requireAuth = (
   req: AuthRequest,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const authHeader = req.headers.authorization;
@@ -27,7 +28,10 @@ export const requireAuth = (
 
     const token = authHeader.split(" ")[1];
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthPayload;
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!
+    ) as AuthPayload;
 
     // ✅ attach to req.auth (NOT req.user)
     req.auth = decoded;
@@ -56,28 +60,28 @@ export interface AdminAuthRequest extends Request {
 export const requireAdminAuth = (
   req: AdminAuthRequest,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): void | Response => {
   try {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
-        message: 'Admin authorization token missing',
+        message: "Admin authorization token missing",
       });
     }
 
-    const token = authHeader.split(' ')[1];
+    const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET as string,
+      process.env.JWT_SECRET as string
     ) as AdminJwtPayload;
 
     // 🔒 Role validation
     if (!Object.values(AdminRole).includes(decoded.role)) {
       return res.status(403).json({
-        message: 'Admin access required',
+        message: "Admin access required",
       });
     }
 
@@ -85,7 +89,7 @@ export const requireAdminAuth = (
     next();
   } catch {
     return res.status(401).json({
-      message: 'Invalid or expired admin token',
+      message: "Invalid or expired admin token",
     });
   }
 };

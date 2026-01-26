@@ -1,9 +1,11 @@
 
 // src/controllers/profile/setupHelperProfile.controller.ts
 import { Response } from "express";
+import fs from "fs";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { HelperProfile } from "../../models/Role/HelperProfile.model";
 import { User } from "../../models/User.model";
+import { uploadImage } from "../../utils/cloudinary";
 
 export const setupHelperProfile = async (
   req: AuthRequest,
@@ -12,6 +14,7 @@ export const setupHelperProfile = async (
   try {
     const { userId, role } = req.auth!;
 
+    // 🔐 Only helpers can create profile
     if (role !== "HELPER") {
       return res.status(403).json({
         message: "Only helpers can create helper profile",
@@ -40,35 +43,62 @@ export const setupHelperProfile = async (
       });
     }
 
-    /* ---------------- FETCH USER PHONE ---------------- */
-    const user = await User.findById(userId).select("phone");
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Profile image is required",
       });
     }
 
-    /* ---------------- CHECK EXISTING ---------------- */
+    // 🚫 Prevent duplicate profile
     const existingProfile = await HelperProfile.findOne({ user: userId });
-
     if (existingProfile) {
       return res.status(409).json({
         message: "Helper profile already exists",
       });
     }
 
+    // 📞 Fetch phone from User (OTP source of truth)
+    const user = await User.findById(userId).select("phone");
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // ☁️ Upload profile image
+    const uploaded = await uploadImage(req.file.path);
+    fs.unlinkSync(req.file.path); // cleanup temp file
+
+    // 🏠 Parse address (may come as string)
+    let parsedAddress: any;
+    try {
+      parsedAddress =
+        typeof address === "string" ? JSON.parse(address) : address;
+    } catch {
+      return res.status(400).json({
+        message: "Invalid address format",
+      });
+    }
+
     /* ---------------- CREATE PROFILE ---------------- */
     const helperProfile = await HelperProfile.create({
       user: userId,
-      phone: user.phone, // 🔥 AUTO-INJECTED
+      phone: user.phone, // 🔥 auto-injected
       firstName,
       lastName,
       age,
-      address,
+      address: {
+        houseNo: parsedAddress.houseNo || "",
+        area: parsedAddress.area,
+        city: parsedAddress.city,
+        state: parsedAddress.state,
+        pincode: parsedAddress.pincode,
+      },
       education,
       aadhaarFile,
+      profileImage: uploaded.secure_url,
     });
+
     return res.status(201).json({
       message: "Helper profile created successfully",
       helperProfile,

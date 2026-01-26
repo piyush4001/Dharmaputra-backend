@@ -1,40 +1,9 @@
-// import { Response } from "express";
-// import { AuthRequest } from "../../middlewares/auth.middleware";
-// import { SeniorProfile } from "../../models/Role/SeniorProfile.model";
-
-// export const setupSeniorProfile = async (
-//   req: AuthRequest,
-//   res: Response,
-// ) => {
-//   const { userId } = req.auth!;
-//   const { firstName,lastName,age, address, emergencyContact, medicalInfo } = req.body;
-
-//   if (!age || !address) {
-//     return res
-//       .status(400)
-//       .json({ message: "Required fields missing" });
-//   }
-
-//   await SeniorProfile.findOneAndUpdate(
-//     { user: userId },
-//     {
-//       user: userId,
-//       firstName,
-//       lastName,
-//       age,
-//       address,
-//       emergencyContact,
-//       medicalInfo,
-//     },
-//     { upsert: true, new: true },
-//   );
-
-//   res.json({ message: "Senior profile saved" });
-// };
 import { Response } from "express";
+import fs from "fs";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { SeniorProfile } from "../../models/Role/SeniorProfile.model";
 import { User } from "../../models/User.model";
+import { uploadImage } from "../../utils/cloudinary";
 
 export const setupSeniorProfile = async (
   req: AuthRequest,
@@ -43,6 +12,7 @@ export const setupSeniorProfile = async (
   try {
     const { userId, role } = req.auth!;
 
+    // 🔐 Only seniors can create/update profile
     if (role !== "SENIOR") {
       return res.status(403).json({
         message: "Only seniors can create senior profile",
@@ -58,30 +28,43 @@ export const setupSeniorProfile = async (
       medicalInfo,
     } = req.body;
 
-    if (!age || !address) {
+    const ageNumber = Number(age);
+
+    if (!ageNumber || !address || String(address).trim() === "") {
       return res.status(400).json({
         message: "Age and address are required",
       });
     }
 
-    // 🔑 Get phone number from User (OTP login source)
+    // 📞 Get phone number from User (OTP source of truth)
     const user = await User.findById(userId).select("phone");
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
 
-    // 🔁 Upsert senior profile (same behavior as before)
+    // ☁️ Optional profile image upload
+    let profileImage: string | undefined;
+    if (req.file) {
+      const uploaded = await uploadImage(req.file.path);
+      fs.unlinkSync(req.file.path); // cleanup temp file
+      profileImage = uploaded.secure_url;
+    }
+
+    // 🔁 Upsert senior profile
     const profile = await SeniorProfile.findOneAndUpdate(
       { user: userId },
       {
         user: userId,
         firstName,
         lastName,
-        age,
+        age: ageNumber,
         address,
         emergencyContact,
         medicalInfo,
         phone: user.phone, // ✅ injected automatically
+        ...(profileImage && { profileImage }),
       },
       { upsert: true, new: true }
     );

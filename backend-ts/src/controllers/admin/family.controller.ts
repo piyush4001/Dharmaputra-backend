@@ -11,7 +11,8 @@ export const getAllFamilies = async (_req: AdminAuthRequest, res: Response) => {
     const families = await FamilyProfile.find()
       .sort({ createdAt: -1 })
       .select(
-        'firstName lastName phoneNumber relation customRelation isPrimaryContact createdAt',
+
+        'firstName lastName phone  relation customRelation isPrimaryContact createdAt',
       )
       .lean();
 
@@ -64,7 +65,8 @@ export const getFamilyById = async (req: AdminAuthRequest, res: Response) => {
 
     const family = await FamilyProfile.findById(id)
       .select(
-        'firstName lastName phoneNumber relation customRelation isPrimaryContact address createdAt  isApproved approvedAt',
+
+        'firstName lastName phone profileImage relation customRelation isPrimaryContact address createdAt isApproved approvedAt idCardImage',
       )
       .lean();
 

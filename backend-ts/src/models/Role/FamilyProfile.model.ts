@@ -5,7 +5,7 @@ export interface IFamilyProfile extends Document {
   lastName: string;
   address?: string;
   phone?: string;
-
+  profileImage: string;
   userId: Types.ObjectId; // family member (logged-in user)
 
   seniorIds: Types.Array<Types.ObjectId>; // ✅ linked seniors (User IDs)
@@ -15,18 +15,18 @@ export interface IFamilyProfile extends Document {
   isPrimaryContact: boolean;
   isApproved: boolean;
   approvedAt?: Date;
+  idCardImage?: string;
 }
 
-
 export enum FamilyRelation {
-  SON = "SON",
-  DAUGHTER = "DAUGHTER",
-  WIFE = "WIFE",
-  HUSBAND = "HUSBAND",
-  BROTHER = "BROTHER",
-  SISTER = "SISTER",
-  CAREGIVER = "CAREGIVER",
-  OTHER = "OTHER",
+  SON = 'SON',
+  DAUGHTER = 'DAUGHTER',
+  WIFE = 'WIFE',
+  HUSBAND = 'HUSBAND',
+  BROTHER = 'BROTHER',
+  SISTER = 'SISTER',
+  CAREGIVER = 'CAREGIVER',
+  OTHER = 'OTHER',
 }
 
 const familyProfileSchema = new Schema<IFamilyProfile>(
@@ -52,6 +52,16 @@ const familyProfileSchema = new Schema<IFamilyProfile>(
       type: String,
       trim: true,
     },
+    profileImage: {
+      type: String,
+      required: true, // or false if you want optional
+    },
+
+    idCardImage: {
+      type: String,
+      default: null,
+    },
+
     phone: {
       type: String,
       trim: true,
@@ -68,7 +78,6 @@ const familyProfileSchema = new Schema<IFamilyProfile>(
       default: null,
     },
 
-
     customRelation: {
       type: String,
       trim: true,
@@ -78,7 +87,7 @@ const familyProfileSchema = new Schema<IFamilyProfile>(
       type: Boolean,
       default: false,
     },
-     isApproved: {
+    isApproved: {
       type: Boolean,
       default: false,
     },
@@ -90,6 +99,6 @@ const familyProfileSchema = new Schema<IFamilyProfile>(
 );
 
 export const FamilyProfile = model<IFamilyProfile>(
-  "FamilyProfile",
+  'FamilyProfile',
   familyProfileSchema,
 );

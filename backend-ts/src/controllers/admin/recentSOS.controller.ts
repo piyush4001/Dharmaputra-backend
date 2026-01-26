@@ -1,29 +1,3 @@
-// import { Response } from 'express';
-// import { AdminAuthRequest } from '../../middlewares/auth.middleware';
-// import { Emergency } from '../../models/Emergency.model';
-
-// /**
-//  * ADMIN + SUPER_ADMIN
-//  * Fetch recent SOS (last 10)
-//  */
-// export const getRecentSOS = async (_req: AdminAuthRequest, res: Response) => {
-//   try {
-//     const sosList = await Emergency.find()
-//       .sort({ triggeredAt: -1 })
-//       .limit(10)
-//       .populate('userId', 'email'); // populate USER who raised SOS
-
-//     return res.status(200).json({
-//       sos: sosList,
-//     });
-//   } catch (error) {
-//     console.error('Recent SOS error:', error);
-//     return res.status(500).json({
-//       message: 'Internal server error',
-//     });
-//   }
-// };
-
 import { Response } from 'express';
 import { AdminAuthRequest } from '../../middlewares/auth.middleware';
 import { Emergency } from '../../models/Emergency.model';

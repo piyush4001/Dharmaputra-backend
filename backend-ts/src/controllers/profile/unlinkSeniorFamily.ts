@@ -1,58 +1,3 @@
-// import { Response } from "express";
-// import { AuthRequest } from "../../middlewares/auth.middleware";
-// import { FamilyProfile } from "../../models/Role/FamilyProfile.model";
-// import { SeniorProfile } from "../../models/Role/SeniorProfile.model";
-// import mongoose from "mongoose";
-
-// export const unlinkSeniorFamily = async (
-//   req: AuthRequest,
-//   res: Response
-// ) => {
-//   try {
-//     const { userId, role } = req.auth!;
-//     const { targetUserId } = req.body;
-
-//     if (!targetUserId || !mongoose.Types.ObjectId.isValid(targetUserId)) {
-//       return res.status(400).json({ message: "Invalid target user id" });
-//     }
-
-//     // 🔹 FAMILY initiates unlink
-//     if (role === "FAMILY") {
-//       await Promise.all([
-//         FamilyProfile.updateOne(
-//           { userId },
-//           { $pull: { seniorIds: targetUserId } }
-//         ),
-//         SeniorProfile.updateOne(
-//           { user: targetUserId },
-//           { $pull: { familyIds: userId } }
-//         ),
-//       ]);
-//     }
-
-//     // 🔹 SENIOR initiates unlink
-//     else if (role === "SENIOR") {
-//       await Promise.all([
-//         SeniorProfile.updateOne(
-//           { user: userId },
-//           { $pull: { familyIds: targetUserId } }
-//         ),
-//         FamilyProfile.updateOne(
-//           { userId: targetUserId },
-//           { $pull: { seniorIds: userId } }
-//         ),
-//       ]);
-//     } else {
-//       return res.status(403).json({ message: "Unauthorized role" });
-//     }
-
-//     return res.json({ message: "Unlinked successfully" });
-//   } catch (error) {
-//     console.error("unlinkSeniorFamily error:", error);
-//     return res.status(500).json({ message: "Failed to unlink" });
-//   }
-// };
-
 import { Response } from "express";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { FamilyProfile } from "../../models/Role/FamilyProfile.model";
@@ -144,7 +89,3 @@ export const unlinkSeniorFamily = async (
     return res.status(500).json({ message: "Failed to unlink" });
   }
 };
-
-
-
-

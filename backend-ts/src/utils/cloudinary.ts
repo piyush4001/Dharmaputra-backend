@@ -7,6 +7,9 @@ cloudinary.config({
   api_secret: env.CLOUDINARY_API_SECRET,
 });
 
-
-
-export default cloudinary;
+export const uploadImage = async (filePath: string) => {
+  return cloudinary.uploader.upload(filePath, {
+    folder: 'dharmaputra/profile',
+    resource_type: 'image',
+  });
+};

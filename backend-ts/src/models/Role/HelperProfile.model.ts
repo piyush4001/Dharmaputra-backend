@@ -47,11 +47,15 @@ const helperProfileSchema = new Schema(
         required: true,
       },
     },
+    profileImage: {
+      type: String,
+      required: true, // or false if you want optional
+    },
 
     /* ---------------- DOCUMENTS ---------------- */
-    aadhaarFile: {
-      type: String, // Cloudinary / S3 URL
-      default:null
+    idCardImage: {
+      type: String,
+      default: null,
     },
 
     /* ---------------- EDUCATION ---------------- */
