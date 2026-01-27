@@ -40,6 +40,12 @@ export default function StatsCards({
       icon: ShieldAlert,
       color: "bg-red-500",
     },
+    {
+      label: "Total SOS",
+      value: totalSOS,
+      icon: ShieldAlert,
+      color: "bg-red-700",
+    },
   ];
 
   return (
