@@ -22,7 +22,6 @@ export const updateHelperProfile = async (req: AuthRequest, res: Response) => {
       availability,
       isActive,
       address,
-      aadhaarFile,
     } = req.body;
 
     // Build update object dynamically (partial updates allowed)
@@ -35,8 +34,6 @@ export const updateHelperProfile = async (req: AuthRequest, res: Response) => {
     if (education) updateData.education = education;
     if (availability) updateData.availability = availability;
     if (typeof isActive === "boolean") updateData.isActive = isActive;
-    if (aadhaarFile) updateData.aadhaarFile = aadhaarFile;
-
     // Nested address update
     if (address) {
       for (const key of ["houseNo", "area", "city", "state", "pincode"]) {

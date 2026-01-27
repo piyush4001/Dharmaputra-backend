@@ -3,7 +3,7 @@ import { Schema, model, Document, Types } from "mongoose";
 
 export interface ILocation extends Document {
   userId: Types.ObjectId;
-  panicId?: Types.ObjectId;
+ // panicId?: Types.ObjectId;
   latitude: number;
   longitude: number;
   accuracy?: number;
@@ -20,10 +20,10 @@ const locationSchema = new Schema<ILocation>(
       index: true,
     },
 
-    panicId: {
-      type: Schema.Types.ObjectId,
-      ref: "Panic",
-    },
+    // panicId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Panic",
+    // },
 
     latitude: {
       type: Number,

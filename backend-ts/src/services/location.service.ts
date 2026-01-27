@@ -5,14 +5,14 @@ import { Location } from "../models/Location.model";
 // Save location data
 export const saveLocation = async ({
   userId,
-  panicId,
+//  panicId,
   latitude,
   longitude,
   accuracy,
   address,
 }: {
   userId: Types.ObjectId;
-  panicId?: Types.ObjectId;
+ // panicId?: Types.ObjectId;
   latitude: number;
   longitude: number;
   accuracy?: number;
@@ -20,7 +20,7 @@ export const saveLocation = async ({
 }) => {
   return await Location.create({
     userId,
-    panicId,
+   // panicId,
     latitude,
     longitude,
     accuracy,

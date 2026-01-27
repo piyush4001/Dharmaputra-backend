@@ -16,6 +16,7 @@ export interface IFamilyProfile extends Document {
   isApproved: boolean;
   approvedAt?: Date;
   idCardImage?: string;
+  helperIds: Types.Array<Types.ObjectId>; // 🆕 linked helpers (Helper IDs)
 }
 
 export enum FamilyRelation {
@@ -94,6 +95,13 @@ const familyProfileSchema = new Schema<IFamilyProfile>(
     approvedAt: {
       type: Date,
     },
+    helperIds: [
+  {
+    type: Schema.Types.ObjectId,
+    ref: "Helper"
+  }
+]
+
   },
   { timestamps: true },
 );

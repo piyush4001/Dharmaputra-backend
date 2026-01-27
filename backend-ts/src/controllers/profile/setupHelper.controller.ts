@@ -27,7 +27,6 @@ export const setupHelperProfile = async (
       age,
       address,
       education,
-      aadhaarFile,
     } = req.body;
 
     if (
@@ -35,8 +34,7 @@ export const setupHelperProfile = async (
       !lastName ||
       !age ||
       !address ||
-      !education ||
-      !aadhaarFile
+      !education 
     ) {
       return res.status(400).json({
         message: "All required fields must be provided",
@@ -95,7 +93,6 @@ export const setupHelperProfile = async (
         pincode: parsedAddress.pincode,
       },
       education,
-      aadhaarFile,
       profileImage: uploaded.secure_url,
     });
 

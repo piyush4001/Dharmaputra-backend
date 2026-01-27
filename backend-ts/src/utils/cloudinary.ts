@@ -13,3 +13,4 @@ export const uploadImage = async (filePath: string) => {
     resource_type: 'image',
   });
 };
+export {cloudinary};

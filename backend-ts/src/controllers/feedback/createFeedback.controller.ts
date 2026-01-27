@@ -1,6 +1,6 @@
 import { Response } from "express";
 import Feedback from "../../models/Feedback.model";
-import cloudinary from "../../utils/cloudinary";
+import {cloudinary }from "../../utils/cloudinary";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 
 export const createFeedback = async (req: AuthRequest, res: Response) => {

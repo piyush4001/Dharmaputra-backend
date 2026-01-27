@@ -61,8 +61,7 @@ export const setupFamilyProfile = async (
       address,
       phone: user.phone,
       profileImage: uploaded.secure_url,
-      seniorIds: [],
-      helperIds: [],
+      seniorIds: []
     });
 
     return res.status(201).json({
