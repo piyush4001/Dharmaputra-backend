@@ -11,7 +11,7 @@ import { getMyProfile } from "../controllers/profile/me.controller";
 // Senior
 import { setupSeniorProfile } from "../controllers/profile/setupSenior.controller";
 import { updateSeniorProfile } from "../controllers/profile/updateSeniorProfile.controller";
-import { getSeniorFamilyMembers } from "../controllers/profile/getSeniorFamilys.controller";
+import { getSeniorLinkedMembers } from "../controllers/profile/getSeniorFamilys.controller";
 
 // Family
 import { setupFamilyProfile } from "../controllers/profile/setupFamily.controller";
@@ -26,7 +26,7 @@ import { getHelperLinkedSeniors } from "../controllers/profile/getHelperSeniors.
 import { linkSeniorByHelper } from "../controllers/profile/linkSeniorByHelper.controller";
 
 // Common
-import { unlinkSeniorFamily } from "../controllers/profile/unlinkSeniorFamily";
+import { unlinkSenior } from "../controllers/profile/unlinkSenior.controller";
 import { uploadIdCard } from "../controllers/profile/uploadIdCard.controller";
 
 const router = Router();
@@ -39,7 +39,7 @@ router.get("/me", requireAuth, getMyProfile);
 // Legacy (no image)
 router.post("/senior", requireAuth, setupSeniorProfile);
 router.put("/senior", requireAuth, updateSeniorProfile);
-router.get("/senior/family", requireAuth, getSeniorFamilyMembers);
+router.get("/senior/linked-users", requireAuth, getSeniorLinkedMembers);
 
 // New (with image)
 router.post(
@@ -80,7 +80,7 @@ router.post(
 );
 
 /* ================= COMMON ================= */
-router.post("/unlink", requireAuth, unlinkSeniorFamily);
+router.post("/unlink", requireAuth, unlinkSenior);
 router.post(
   "/upload-id",
   requireAuth,

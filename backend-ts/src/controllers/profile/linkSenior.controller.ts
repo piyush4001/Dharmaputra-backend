@@ -57,7 +57,7 @@ export const linkSenior = async (req: AuthRequest, res: Response) => {
       familyId: userId,
       familyName: `${familyProfile.firstName} ${familyProfile.lastName}`,
       familyPhone: familyProfile.phone,
-      relation,
+      relationType: relation,
     });
 
     // 🔔 Notification logic will plug here later

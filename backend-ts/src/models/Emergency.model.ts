@@ -18,7 +18,7 @@ export interface IEmergency extends Document {
 
   // Response tracking
   respondedBy?: Types.ObjectId;
-  responseStatus?: 'RESPONDED' | 'UNABLE_TO_REACH';
+  responseStatus?: 'COMING' | 'UNABLE_TO_REACH';
   respondedAt?: Date;
 
   // Timestamps

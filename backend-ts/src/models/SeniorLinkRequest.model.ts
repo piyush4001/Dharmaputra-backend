@@ -1,4 +1,3 @@
-
 import { Schema, model, Types } from 'mongoose';
 
 export enum LinkRequestStatus {
@@ -6,7 +5,19 @@ export enum LinkRequestStatus {
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
 }
-
+export enum relationType {
+  SON = 'SON',
+  DAUGHTER = 'DAUGHTER',
+  BROTHER = 'BROTHER',
+  SISTER = 'SISTER',
+  HUSBAND = 'HUSBAND',
+  WIFE = 'WIFE',
+  GRANDCHILD = 'GRANDCHILD',
+  FRIEND = 'FRIEND',
+  HELPER = 'HELPER',
+  SPOUSE = 'SPOUSE',
+  OTHER = 'OTHER',
+}
 export enum LinkRequestType {
   FAMILY = 'FAMILY',
   HELPER = 'HELPER',
@@ -87,6 +98,10 @@ const seniorLinkRequestSchema = new Schema(
       type: String,
       enum: Object.values(LinkRequestStatus),
       default: LinkRequestStatus.PENDING,
+    },
+    relationType: {
+      type: String,
+      enum: Object.values(relationType),
     },
   },
   { timestamps: true },
