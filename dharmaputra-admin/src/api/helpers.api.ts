@@ -21,3 +21,7 @@ export const getHelperByIdAPI = async (id: string) => {
   const res = await api.get(`/admin/helpers/${id}`);
   return res.data;
 };
+export const getHelperById = (id: string) => api.get(`/admin/helpers/${id}`);
+
+export const verifyHelper = (id: string, isVerified: boolean) =>
+  api.patch(`/admin/helpers/${id}/verify`, { isVerified });

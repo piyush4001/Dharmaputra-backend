@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { AdminRole } from "../constants/roles";
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { AdminRole } from '../constants/roles';
 
 export interface AuthPayload {
   userId: string;
@@ -15,23 +15,20 @@ export interface AuthRequest extends Request {
 export const requireAuth = (
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    console.log('AUTH HEADER:', req.headers.authorization);
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
-        message: "Authorization token missing",
+        message: 'Authorization token missing',
       });
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.split(' ')[1];
 
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET!
-    ) as AuthPayload;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as AuthPayload;
 
     // ✅ attach to req.auth (NOT req.user)
     req.auth = decoded;
@@ -39,7 +36,7 @@ export const requireAuth = (
     next();
   } catch (error) {
     return res.status(401).json({
-      message: "Invalid or expired token",
+      message: 'Invalid or expired token',
     });
   }
 };

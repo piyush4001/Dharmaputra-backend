@@ -118,6 +118,7 @@ export const getHelperById = async (req: Request, res: Response) => {
       phone: helper.phone,
       age: helper.age,
       profileImage: helper.profileImage,
+      idCardImage: helper.idCardImage,
       education: helper.education,
       availability: helper.availability,
       isVerified: helper.isVerified,

@@ -16,7 +16,8 @@ import SeniorDetail from "./pages/seniors/SeniorDetail";
 import FamilyDetail from "./pages/families/FamilyDetail";
 import FeedbackList from "./pages/feedback/FeedbackList";
 import LiveEmergencies from "./pages/live/LiveEmergencies";
-
+import HelperDetail from "./pages/helpers/HelperDetail";
+import ResolvedEmergencies from "./pages/live/ResolvedEmergencies";
 function App() {
   return (
     <BrowserRouter>
@@ -48,6 +49,11 @@ function App() {
             <Route path="families/:id" element={<FamilyDetail />} />
             <Route path="feedbacks" element={<FeedbackList />} />
             <Route path="live-emergencies" element={<LiveEmergencies />} />
+            <Route path="helpers/:helperId" element={<HelperDetail />} />
+            <Route
+              path="resolved-emergencies"
+              element={<ResolvedEmergencies />}
+            />
           </Route>
 
           {/* SUPER ADMIN AREA */}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
-
+import { useNavigate } from "react-router-dom";
 /* ================= TYPES ================= */
 
 type User = {
@@ -28,6 +28,7 @@ type Emergency = {
 /* ================= COMPONENT ================= */
 
 export default function LiveEmergencies() {
+  const navigate = useNavigate();
   const [emergencies, setEmergencies] = useState<Emergency[]>([]);
   const [selectedEmergency, setSelectedEmergency] = useState<Emergency | null>(
     null
@@ -84,7 +85,17 @@ export default function LiveEmergencies() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Live Emergencies</h1>
+      {/* <h1 className="text-2xl font-bold mb-6">Live Emergencies</h1> */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Live Emergencies</h1>
+
+        <button
+          onClick={() => navigate("/admin/resolved-emergencies")}
+          className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-slate-100"
+        >
+          Resolved Emergencies
+        </button>
+      </div>
 
       {emergencies.length === 0 ? (
         <p className="text-slate-500">No active emergencies</p>
@@ -103,7 +114,7 @@ export default function LiveEmergencies() {
                 />
                 <div>
                   <p className="font-semibold">
-                    {em.seniorProfile.firstName} {em.seniorProfile.lastName}
+                    {em.user?.name || "Unknown User"}
                   </p>
                   <p className="text-sm text-slate-500">
                     Active since {new Date(em.triggeredAt).toLocaleTimeString()}
