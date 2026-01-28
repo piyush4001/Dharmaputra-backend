@@ -87,11 +87,11 @@ export default function UsersList() {
                 <td className="flex gap-2 py-2">
                   <Button
                     onClick={async () => {
-                      console.log("VIEW CLICKED FOR USER:", u._id);
+                      //("VIEW CLICKED FOR USER:", u._id);
 
                       const data = await getUserProfileAPI(u._id);
 
-                      console.log("PROFILE API RESPONSE:", data);
+                      //("PROFILE API RESPONSE:", data);
 
                       setSelectedProfile(data);
                     }}

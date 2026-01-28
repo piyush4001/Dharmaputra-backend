@@ -1,28 +1,33 @@
-import { Router } from "express";
-import { AdminRole } from "../constants/roles";
+import { Router } from 'express';
+import { AdminRole } from '../constants/roles';
 
-import { requireAdminAuth } from "../middlewares/auth.middleware";
-import { requireAdminRole } from "../middlewares/role.middleware";
-import { upload } from "../middlewares/upload.middleware";
-
+import { requireAdminAuth } from '../middlewares/auth.middleware';
+import { requireAdminRole } from '../middlewares/role.middleware';
+import { upload } from '../middlewares/upload.middleware';
+import {
+  getAllHelpers,
+  approveHelper,
+  rejectHelper,
+  getHelperById,
+} from '../controllers/admin/helper.controller';
 /* ================= CONTROLLERS ================= */
 
 // Auth
-import { adminLogin } from "../controllers/admin/admin.controller";
+import { adminLogin } from '../controllers/admin/admin.controller';
 
 // Admin management
-import { createAdmin } from "../controllers/admin/createAdmin.controller";
-import { listAdmins } from "../controllers/admin/listAdmins.controller";
-import { toggleAdminStatus } from "../controllers/admin/toggleAdminStatus.controller";
+import { createAdmin } from '../controllers/admin/createAdmin.controller';
+import { listAdmins } from '../controllers/admin/listAdmins.controller';
+import { toggleAdminStatus } from '../controllers/admin/toggleAdminStatus.controller';
 
 // Dashboard
-import { getDashboardStats } from "../controllers/admin/dashboardStats.controller";
-import { getDashboardCharts } from "../controllers/admin/charts.controller";
-import { getRecentSOS } from "../controllers/admin/recentSOS.controller";
+import { getDashboardStats } from '../controllers/admin/dashboardStats.controller';
+import { getDashboardCharts } from '../controllers/admin/charts.controller';
+import { getRecentSOS } from '../controllers/admin/recentSOS.controller';
 
 // Users
-import { getAdminUsers } from "../controllers/admin/user.controller";
-import { getUserProfileByAdmin } from "../controllers/admin/getUserProfile.controller";
+import { getAdminUsers } from '../controllers/admin/user.controller';
+import { getUserProfileByAdmin } from '../controllers/admin/getUserProfile.controller';
 
 // Seniors
 import {
@@ -30,7 +35,7 @@ import {
   getSeniorById,
   getLinkedFamiliesBySenior,
   approveSenior,
-} from "../controllers/admin/senior.controller";
+} from '../controllers/admin/senior.controller';
 
 // Families
 import {
@@ -38,163 +43,167 @@ import {
   getFamilyById,
   getLinkedSeniorsByFamily,
   approveFamily,
-} from "../controllers/admin/family.controller";
-
+} from '../controllers/admin/family.controller';
+//helpers
 // Linking
 import {
   linkFamilyToSenior,
   unlinkFamilyFromSenior,
-} from "../controllers/admin/link.controller";
+} from '../controllers/admin/link.controller';
 
 // Feedbacks
-import { getAllFeedbacks } from "../controllers/admin/feedback.controller";
+import { getAllFeedbacks } from '../controllers/admin/feedback.controller';
 
 const router = Router();
 
-console.log("🔥 ADMIN ROUTES (TS) LOADED 🔥");
+//('🔥 ADMIN ROUTES (TS) LOADED 🔥');
 
 /* ================= PUBLIC ================= */
-router.post("/login", adminLogin);
+router.post('/login', adminLogin);
 
 /* ================= SUPER ADMIN ================= */
 router.post(
-  "/create-admin",
+  '/create-admin',
   requireAdminAuth,
   requireAdminRole([AdminRole.SUPER_ADMIN]),
-  createAdmin
+  createAdmin,
 );
 
 router.get(
-  "/admins",
+  '/admins',
   requireAdminAuth,
   requireAdminRole([AdminRole.SUPER_ADMIN]),
-  listAdmins
+  listAdmins,
 );
 
 router.patch(
-  "/admins/:adminId/toggle-status",
+  '/admins/:adminId/toggle-status',
   requireAdminAuth,
   requireAdminRole([AdminRole.SUPER_ADMIN]),
-  toggleAdminStatus
+  toggleAdminStatus,
 );
 
 /* ================= DASHBOARD ================= */
 router.get(
-  "/dashboard-stats",
+  '/dashboard-stats',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getDashboardStats
+  getDashboardStats,
 );
 
 router.get(
-  "/dashboard-charts",
+  '/dashboard-charts',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getDashboardCharts
+  getDashboardCharts,
 );
 
 router.get(
-  "/recent-sos",
+  '/recent-sos',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getRecentSOS
+  getRecentSOS,
 );
 
 /* ================= USERS ================= */
 router.get(
-  "/users",
+  '/users',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getAdminUsers
+  getAdminUsers,
 );
 
 router.get(
-  "/users/:userId/profile",
+  '/users/:userId/profile',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getUserProfileByAdmin
+  getUserProfileByAdmin,
 );
 
 /* ================= SENIORS ================= */
 router.get(
-  "/seniors",
+  '/seniors',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getAllSeniors
+  getAllSeniors,
 );
 
 router.get(
-  "/seniors/:id",
+  '/seniors/:id',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getSeniorById
+  getSeniorById,
 );
 
 router.get(
-  "/seniors/:id/families",
+  '/seniors/:id/families',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getLinkedFamiliesBySenior
+  getLinkedFamiliesBySenior,
 );
 
 router.patch(
-  "/seniors/:id/approve",
+  '/seniors/:id/approve',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  approveSenior
+  approveSenior,
 );
 
 /* ================= FAMILIES ================= */
 router.get(
-  "/families",
+  '/families',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getAllFamilies
+  getAllFamilies,
 );
 
 router.get(
-  "/families/:id",
+  '/families/:id',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getFamilyById
+  getFamilyById,
 );
 
 router.get(
-  "/families/:id/seniors",
+  '/families/:id/seniors',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getLinkedSeniorsByFamily
+  getLinkedSeniorsByFamily,
 );
 
 router.patch(
-  "/families/:id/approve",
+  '/families/:id/approve',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  approveFamily
+  approveFamily,
 );
 
 /* ================= LINKING ================= */
 router.post(
-  "/link-family",
+  '/link-family',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  linkFamilyToSenior
+  linkFamilyToSenior,
 );
 
 router.post(
-  "/unlink-family",
+  '/unlink-family',
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  unlinkFamilyFromSenior
+  unlinkFamilyFromSenior,
 );
 
 /* ================= FEEDBACKS ================= */
 router.get(
-  "/feedbacks",
+  '/feedbacks',
   //🔐 Uncomment when admin auth is required
   requireAdminAuth,
   requireAdminRole([AdminRole.ADMIN, AdminRole.SUPER_ADMIN]),
-  getAllFeedbacks
+  getAllFeedbacks,
 );
-
+// Helper management (ADMIN + SUPER_ADMIN via auth middleware upstream)
+router.get('/helpers', requireAdminAuth, getAllHelpers);
+router.post('/helpers/:id/approve', requireAdminAuth, approveHelper);
+router.post('/helpers/:id/reject', requireAdminAuth, rejectHelper);
+router.get('/helpers/:id', requireAdminAuth, getHelperById);
 export default router;

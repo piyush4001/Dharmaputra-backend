@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { AuthRequest } from "../../middlewares/auth.middleware";
 import { Emergency } from "../../models/Emergency.model";
+import { HelperProfile } from "../../models/Role/HelperProfile.model";
 
 export const getActiveEmergency = async (req: AuthRequest, res: Response) => {
   try {
@@ -10,13 +11,53 @@ export const getActiveEmergency = async (req: AuthRequest, res: Response) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const emergency = await Emergency.findOne({
+    // 🔍 Find the senior's active emergency and populate who responded
+    const emergencyDoc = await Emergency.findOne({
       userId,
       status: "ACTIVE",
-    });
+    })
+      .populate("respondedBy")
+      .lean();
 
+    // No active emergency – keep existing response contract
+    if (!emergencyDoc) {
+      return res.status(200).json({ emergency: null });
+    }
+
+    // Build responders array (currently max 1 helper)
+    const responders: {
+      _id: string;
+      name: string;
+      phone: string;
+      profileImage?: string | null;
+      role: string;
+    }[] = [];
+
+    const respondedBy: any = emergencyDoc.respondedBy;
+
+    if (respondedBy && respondedBy._id) {
+      // Try to enrich from HelperProfile
+      const helperProfile = await HelperProfile.findOne({
+        user: respondedBy._id,
+      }).lean();
+
+      responders.push({
+        _id: String(respondedBy._id),
+        name: helperProfile
+          ? `${helperProfile.firstName} ${helperProfile.lastName}`
+          : respondedBy.name || "Helper",
+        phone: helperProfile?.phone || respondedBy.phone,
+        profileImage: helperProfile?.profileImage ?? null,
+        role: respondedBy.role || "HELPER",
+      });
+    }
+
+    // Attach responders so frontend can render who responded
     return res.status(200).json({
-      emergency,
+      emergency: {
+        ...emergencyDoc,
+        responders,
+      },
     });
   } catch (error) {
     console.error("Get emergency error:", error);
@@ -26,7 +67,6 @@ export const getActiveEmergency = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// import { Response } from "express";
 // import { AuthRequest } from "../../middlewares/auth.middleware";
 // import { Emergency } from "../../models/Emergency.model";
 // import { Types } from "mongoose";
@@ -85,7 +125,7 @@ export const getActiveEmergency = async (req: AuthRequest, res: Response) => {
 //         },
 //       },
 //     ]);
-//     console.log(emergencies);
+//     //(emergencies);
 
 //     return res.json(emergencies);
 //   } catch (error) {

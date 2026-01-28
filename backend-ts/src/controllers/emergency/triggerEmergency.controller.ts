@@ -8,9 +8,9 @@ import { User } from "../../models/User.model";
 
 export const triggerEmergency = async (req: AuthRequest, res: Response) => {
   try {
-    console.log("🚨 Trigger Emergency");
-    console.log("Auth:", req.auth);
-    console.log("Body:", req.body);
+    //("🚨 Trigger Emergency");
+    //("Auth:", req.auth);
+    //("Body:", req.body);
 
     const userId = req.auth?.userId;
     const role = req.auth?.role;

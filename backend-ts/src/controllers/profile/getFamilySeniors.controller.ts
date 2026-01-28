@@ -9,14 +9,14 @@ export const getFamilySeniors = async (
 ) => {
   try {
     const { userId } = req.auth!;
-    console.log("AUTH USER ID:", userId);
+    //("AUTH USER ID:", userId);
 
     const profile = await FamilyProfile.findOne({ userId }).populate(
       "seniorIds",
       "phone"
     );
 
-    console.log("FAMILY PROFILE:", profile);
+    //("FAMILY PROFILE:", profile);
 
     if (!profile) {
       return res.status(404).json({
@@ -27,11 +27,11 @@ export const getFamilySeniors = async (
     // Get senior profile details for each linked senior
     const seniors = await Promise.all(
       profile.seniorIds.map(async (seniorUserId: any) => {
-        console.log("Looking up SeniorProfile for user:", seniorUserId._id);
+        //("Looking up SeniorProfile for user:", seniorUserId._id);
         const seniorProfile = await SeniorProfile.findOne({
           user: seniorUserId._id,
         });
-        console.log("SeniorProfile found:", seniorProfile);
+        //("SeniorProfile found:", seniorProfile);
         return {
           _id: seniorUserId._id,
           phone: seniorUserId.phone,
@@ -44,7 +44,7 @@ export const getFamilySeniors = async (
       })
     );
 
-    console.log("POPULATED SENIORS:", seniors);
+    //("POPULATED SENIORS:", seniors);
 
     return res.json(seniors);
   } catch (error) {

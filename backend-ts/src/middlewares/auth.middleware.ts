@@ -57,39 +57,78 @@ export interface AdminAuthRequest extends Request {
   admin?: AdminJwtPayload;
 }
 
+// export const requireAdminAuth = (
+//   req: AdminAuthRequest,
+//   res: Response,
+//   next: NextFunction
+// ): void | Response => {
+//   try {
+//     const authHeader = req.headers.authorization;
+
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//       return res.status(401).json({
+//         message: "Admin authorization token missing",
+//       });
+//     }
+
+//     const token = authHeader.split(" ")[1];
+
+//     const decoded = jwt.verify(
+//       token,
+//       process.env.JWT_SECRET as string
+//     ) as AdminJwtPayload;
+
+//     // 🔒 Role validation
+//     if (!Object.values(AdminRole).includes(decoded.role)) {
+//       return res.status(403).json({
+//         message: "Admin access required",
+//       });
+//     }
+
+//     req.admin = decoded;
+//     next();
+//   } catch {
+//     return res.status(401).json({
+//       message: "Invalid or expired admin token",
+//     });
+//   }
+// };
 export const requireAdminAuth = (
   req: AdminAuthRequest,
   res: Response,
-  next: NextFunction
-): void | Response => {
+  next: NextFunction,
+) => {
   try {
+    //('🔐 ADMIN AUTH HEADER:', req.headers.authorization);
+
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({
-        message: "Admin authorization token missing",
-      });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      //('❌ Missing or invalid auth header');
+      return res
+        .status(401)
+        .json({ message: 'Admin authorization token missing' });
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.split(' ')[1];
+    //('🔑 ADMIN TOKEN:', token);
 
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET as string
+      process.env.JWT_SECRET as string,
     ) as AdminJwtPayload;
 
-    // 🔒 Role validation
+    //('✅ ADMIN DECODED:', decoded);
+
     if (!Object.values(AdminRole).includes(decoded.role)) {
-      return res.status(403).json({
-        message: "Admin access required",
-      });
+      //('❌ ROLE CHECK FAILED:', decoded.role);
+      return res.status(403).json({ message: 'Admin access required' });
     }
 
     req.admin = decoded;
     next();
-  } catch {
-    return res.status(401).json({
-      message: "Invalid or expired admin token",
-    });
+  } catch (err) {
+    console.error('❌ ADMIN AUTH VERIFY FAILED:', err);
+    return res.status(401).json({ message: 'Invalid or expired admin token' });
   }
 };

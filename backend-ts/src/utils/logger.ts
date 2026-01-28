@@ -3,7 +3,7 @@
 
 export const logger = {
   info: (message: string, data?: any) => {
-    console.log(message, data || "");
+    //(message, data || "");
   },
 
   error: (message: string, error?: any) => {

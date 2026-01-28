@@ -5,7 +5,7 @@ import { API_BASE_URL } from "../config/backend";
    ========================= */
 
 export async function createAdminAPI(email: string, password: string) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/create-admin`, {
     method: "POST",
@@ -26,7 +26,7 @@ export async function createAdminAPI(email: string, password: string) {
 }
 
 export async function fetchAdminsAPI() {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/admins`, {
     headers: {
@@ -70,7 +70,7 @@ export async function toggleAdminStatusAPI(adminId: string) {
    ========================= */
 
 export async function fetchDashboardStatsAPI() {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/dashboard-stats`, {
     headers: {
@@ -88,7 +88,7 @@ export async function fetchDashboardStatsAPI() {
 }
 
 export async function fetchRecentSOSAPI() {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/recent-sos`, {
     headers: {
@@ -106,7 +106,7 @@ export async function fetchRecentSOSAPI() {
 }
 
 export async function fetchDashboardChartsAPI() {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/dashboard-charts`, {
     headers: {
@@ -134,7 +134,7 @@ export async function fetchSeniorsAPI(params?: {
   page?: number;
   limit?: number;
 }) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
   const query = new URLSearchParams();
 
   if (params?.search) query.append("search", params.search);
@@ -143,14 +143,11 @@ export async function fetchSeniorsAPI(params?: {
   if (params?.page) query.append("page", String(params.page));
   if (params?.limit) query.append("limit", String(params.limit));
 
-  const res = await fetch(
-    `${API_BASE_URL}/admin/seniors?${query.toString()}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await fetch(`${API_BASE_URL}/admin/seniors?${query.toString()}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const data = await res.json();
 
@@ -162,7 +159,7 @@ export async function fetchSeniorsAPI(params?: {
 }
 
 export async function fetchFamiliesAPI() {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/families`, {
     headers: {
@@ -180,7 +177,7 @@ export async function fetchFamiliesAPI() {
 }
 
 export async function fetchSeniorByIdAPI(id: string) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/seniors/${id}`, {
     headers: {
@@ -198,7 +195,7 @@ export async function fetchSeniorByIdAPI(id: string) {
 }
 
 export async function fetchFamiliesBySeniorAPI(seniorId: string) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(
     `${API_BASE_URL}/admin/seniors/${seniorId}/families`,
@@ -219,7 +216,7 @@ export async function fetchFamiliesBySeniorAPI(seniorId: string) {
 }
 
 export async function fetchFamilyByIdAPI(id: string) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(`${API_BASE_URL}/admin/families/${id}`, {
     headers: {
@@ -237,7 +234,7 @@ export async function fetchFamilyByIdAPI(id: string) {
 }
 
 export async function fetchSeniorsByFamilyAPI(familyId: string) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(
     `${API_BASE_URL}/admin/families/${familyId}/seniors`,
@@ -258,7 +255,7 @@ export async function fetchSeniorsByFamilyAPI(familyId: string) {
 }
 
 export async function approveFamilyAPI(familyId: string) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
   const res = await fetch(
     `${API_BASE_URL}/admin/families/${familyId}/approve`,
@@ -280,17 +277,14 @@ export async function approveFamilyAPI(familyId: string) {
 }
 
 export async function approveSeniorAPI(seniorId: string) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
 
-  const res = await fetch(
-    `${API_BASE_URL}/admin/seniors/${seniorId}/approve`,
-    {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await fetch(`${API_BASE_URL}/admin/seniors/${seniorId}/approve`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const data = await res.json();
 
@@ -309,7 +303,7 @@ export async function fetchFeedbacksAPI(params?: {
   role?: "SENIOR" | "FAMILY" | "HELPER";
   type?: "TEXT" | "AUDIO" | "VIDEO";
 }) {
-  const token = localStorage.getItem("adminToken");
+  const token = localStorage.getItem("admin_token");
   const query = new URLSearchParams();
 
   if (params?.role) query.append("role", params.role);
@@ -332,3 +326,4 @@ export async function fetchFeedbacksAPI(params?: {
 
   return data;
 }
+//helper api ts

@@ -34,7 +34,7 @@ app.use(apiRateLimiter);
 
 // Request logger
 app.use((req, _res, next) => {
-  console.log("INCOMING:", req.method, req.url);
+  //("INCOMING:", req.method, req.url);
   next();
 });
 

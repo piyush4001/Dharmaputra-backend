@@ -64,7 +64,7 @@ const emergencySchema = new Schema<IEmergency>(
 
     responseStatus: {
       type: String,
-      enum: ["RESPONDED", "UNABLE_TO_REACH"],
+      enum: ['COMING', 'UNABLE_TO_REACH'],
 
     },
 

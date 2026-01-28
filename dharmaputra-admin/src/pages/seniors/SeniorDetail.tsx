@@ -47,7 +47,7 @@ export default function SeniorDetail() {
     try {
       setApproving(true);
       const data = await approveSeniorAPI(id);
-      console.log("Approve response data:", data);
+      //("Approve response data:", data);
       // setIsApproved(data.isApproved);
       // UI sync
       setSenior((prev: any) => ({

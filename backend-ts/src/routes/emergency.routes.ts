@@ -7,6 +7,7 @@ import { cancelEmergency } from "../controllers/emergency/cancelEmergency.contro
 import { getFamilyActiveEmergencies } from "../controllers/emergency/getFamilySOS.contoller";
 import { respondEmergency } from "../controllers/emergency/respondEmergency.controller";
 import { getLinkedEmergencies } from "../controllers/emergency/getLinkedEmergencies.controller";
+import { requireAdminAuth } from '../middlewares/auth.middleware';
 const router = Router();
 
 router.post("/sos", requireAuth, triggerEmergency);
@@ -24,4 +25,5 @@ router.get(
   requireAuth,
   getLinkedEmergencies
 );
+router.get('/admin/active', requireAdminAuth, getFamilyActiveEmergencies);
 export default router;

@@ -4,7 +4,7 @@ export const sendOtpSms = async (phone: string, otp: string) => {
   const SMS_ENABLED = process.env.SMS_ENABLED === "true";
 
   if (!SMS_ENABLED) {
-    console.log(`📩 [SMS DISABLED] OTP for ${phone}: ${otp}`);
+    //(`📩 [SMS DISABLED] OTP for ${phone}: ${otp}`);
     return { disabled: true };
   }
 
@@ -25,7 +25,7 @@ export const sendOtpSms = async (phone: string, otp: string) => {
       }
     );
 
-    console.log("Fast2SMS response:", response.data);
+    //("Fast2SMS response:", response.data);
     return response.data;
   } catch (error: any) {
     console.error(

@@ -29,15 +29,13 @@ export default function Topbar() {
       <div className="flex items-center gap-4">
         {/* User Info */}
         <div className="text-right hidden sm:block">
-          <p className="text-sm font-medium text-slate-700">
-            {user?.name || "Admin"}
-          </p>
+          <p className="text-sm font-medium text-slate-700">{"Admin"}</p>
           <p className="text-xs text-slate-500">Administrator</p>
         </div>
 
         {/* Avatar */}
         <div className="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-semibold">
-          {user?.name?.charAt(0) || "A"}
+          {"A"}
         </div>
 
         {/* Logout */}

@@ -40,7 +40,7 @@ export default function FeedbackList() {
 
       // ✅ fetch() returns data directly (not res.data)
       setFeedbacks(res.feedbacks || []);
-      console.log("Loaded feedbacks:", res);
+      //("Loaded feedbacks:", res);
     } catch (err: any) {
       console.error("Failed to load feedbacks:", err);
       setError("Failed to load feedbacks");

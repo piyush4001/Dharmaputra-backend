@@ -22,7 +22,7 @@ export const getSeniorLinkedMembers = async (
 
     const familyIds = seniorProfile.familyIds || [];
     const helperIds = seniorProfile.helperIds || [];
-    console.log(helperIds);
+    //(helperIds);
     if (familyIds.length === 0 && helperIds.length === 0) {
       return res.json([]);
     }
@@ -37,7 +37,7 @@ export const getSeniorLinkedMembers = async (
         : [],
     ]);
 
-    console.log(helperProfiles);
+    //(helperProfiles);
 
     // 3️⃣ Normalize response
     const familyMembers = familyProfiles.map((f) => ({
@@ -58,7 +58,7 @@ export const getSeniorLinkedMembers = async (
 
     const linkedUsers = [...familyMembers, ...helpers];
 
-    console.log("Linked members found:", linkedUsers);
+    //("Linked members found:", linkedUsers);
 
     return res.json(linkedUsers);
   } catch (error) {

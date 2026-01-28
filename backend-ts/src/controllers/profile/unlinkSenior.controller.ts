@@ -12,10 +12,10 @@
 //     const { userId, role } = req.auth!;
 //     const { targetUserId } = req.body;
 
-//     console.log("---- UNLINK DEBUG START ----");
-//     console.log("Auth userId:", userId);
-//     console.log("Auth role:", role);
-//     console.log("Target userId:", targetUserId);
+//     //("---- UNLINK DEBUG START ----");
+//     //("Auth userId:", userId);
+//     //("Auth role:", role);
+//     //("Target userId:", targetUserId);
 
 //     // Validate input
 //     if (!targetUserId) {
@@ -47,8 +47,8 @@
 //         { $pull: { seniorIds: userObjectId } }
 //       );
 
-//       console.log("Senior update result:", seniorRes);
-//       console.log("Family update result:", familyRes);
+//       //("Senior update result:", seniorRes);
+//       //("Family update result:", familyRes);
 
 //       if (seniorRes.modifiedCount === 0) {
 //         console.warn("Warning: Senior profile not found or no match updated");
@@ -68,8 +68,8 @@
 //         { $pull: { familyIds: userObjectId } }
 //       );
 
-//       console.log("Family update result:", familyRes);
-//       console.log("Senior update result:", seniorRes);
+//       //("Family update result:", familyRes);
+//       //("Senior update result:", seniorRes);
 
 //       if (familyRes.modifiedCount === 0) {
 //         console.warn("Warning: Family profile not found or no match updated");
@@ -81,7 +81,7 @@
 //       return res.status(403).json({ message: "Unauthorized role" });
 //     }
 
-//     console.log("---- UNLINK DEBUG END ----");
+//     //("---- UNLINK DEBUG END ----");
 
 //     return res.json({ message: "Unlinked successfully" });
 //   } catch (error) {

@@ -11,14 +11,14 @@ export const getHelperLinkedSeniors = async (
 ) => {
   try {
     const { userId } = req.auth!;
-    console.log("AUTH HELPER USER ID:", userId);
+    //("AUTH HELPER USER ID:", userId);
 
     // ✅ FIX: use `user`, not `userId`
     const profile = await HelperProfile.findOne({
       user: new Types.ObjectId(userId),
     }).populate("linkedSeniorIds", "phone");
 
-    console.log("HELPER PROFILE:", profile);
+    //("HELPER PROFILE:", profile);
 
     if (!profile) {
       return res.status(404).json({

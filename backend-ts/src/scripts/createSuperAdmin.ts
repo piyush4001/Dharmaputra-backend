@@ -24,7 +24,7 @@ const createSuperAdmin = async () => {
     });
 
     if (existing) {
-      console.log('✅ SUPER_ADMIN already exists');
+      //('✅ SUPER_ADMIN already exists');
       process.exit(0);
     }
 
@@ -37,7 +37,7 @@ const createSuperAdmin = async () => {
       isActive: true,
     });
 
-    console.log('🎉 SUPER_ADMIN created successfully');
+    //('🎉 SUPER_ADMIN created successfully');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error creating SUPER_ADMIN:', error);

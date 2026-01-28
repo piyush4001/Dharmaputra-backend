@@ -5,10 +5,19 @@ export const getAllHelpersAPI = async () => {
   return res.data;
 };
 
-export const approveHelperAPI = async (id: number) => {
-  return api.post(`/admin/helpers/${id}/approve`);
-};
+// export const approveHelperAPI = async (id: number) => {
+//   return api.post(`/admin/helpers/${id}/approve`);
+// };
 
-export const rejectHelperAPI = async (id: number) => {
-  return api.post(`/admin/helpers/${id}/reject`);
+// export const rejectHelperAPI = async (id: number) => {
+//   return api.post(`/admin/helpers/${id}/reject`);
+// };
+export const approveHelperAPI = (id: string) =>
+  api.post(`/admin/helpers/${id}/approve`);
+
+export const rejectHelperAPI = (id: string) =>
+  api.post(`/admin/helpers/${id}/reject`);
+export const getHelperByIdAPI = async (id: string) => {
+  const res = await api.get(`/admin/helpers/${id}`);
+  return res.data;
 };

@@ -99,7 +99,7 @@ export default function SeniorsList() {
                       {senior.firstName} {senior.lastName}
                     </td>
                     <td className="p-3">{senior.age ?? "—"}</td>
-                    <td className="p-3">{senior.address ?? "—"}</td>
+                    <td>{senior.address?.fullAddress}</td>
                     <td className="p-3">{senior.emergencyContact ?? "—"}</td>
                   </tr>
                 ))}

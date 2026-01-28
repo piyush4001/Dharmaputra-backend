@@ -18,7 +18,7 @@ if (!MONGO_URI) {
 export const connectDB = async (): Promise<void> => {
   try {
     await mongoose.connect(MONGO_URI);
-    console.log("MongoDB connected");
+    //("MongoDB connected");
   } catch (error) {
     console.error("MongoDB connection error:", error);
     process.exit(1); // stop app if DB fails
@@ -27,7 +27,7 @@ export const connectDB = async (): Promise<void> => {
 
 // Log when DB disconnects
 mongoose.connection.on("disconnected", () => {
-  console.log("MongoDB disconnected");
+  //("MongoDB disconnected");
 });
 
 // Log DB errors

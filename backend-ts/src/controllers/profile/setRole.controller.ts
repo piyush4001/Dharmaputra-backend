@@ -28,7 +28,7 @@ export const setRole = async (req: AuthRequest, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log("Setting role for user:", userId, normalizedRole);
+    //("Setting role for user:", userId, normalizedRole);
 
     // Generate new token with updated role
     const newToken = jwt.sign(
