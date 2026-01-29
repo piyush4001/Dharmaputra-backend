@@ -187,7 +187,7 @@ export default function FamilyDetail() {
                         {senior.firstName} {senior.lastName}
                       </td>
                       <td className="p-2">{senior.age ?? "—"}</td>
-                      <td className="p-2">{senior.address ?? "—"}</td>
+                      <td className="p-2">{`${senior?.address?.city},${senior?.address?.state} `}</td>
                     </tr>
                   ))}
                 </tbody>

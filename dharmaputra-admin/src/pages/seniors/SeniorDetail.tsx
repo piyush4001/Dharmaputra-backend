@@ -140,7 +140,7 @@ export default function SeniorDetail() {
 
             <div className="sm:col-span-2">
               <p className="text-slate-500">Address</p>
-              <p className="font-medium">{senior.address ?? "—"}</p>
+              <p className="font-medium">{`${senior?.address?.city},${senior?.address?.state} `}</p>
             </div>
 
             {senior.isApproved && senior.approvedAt && (

@@ -114,7 +114,7 @@ export default function LiveEmergencies() {
                 />
                 <div>
                   <p className="font-semibold">
-                    {em.user?.name || "Unknown User"}
+                    {em.seniorProfile?.firstName + em.seniorProfile?.lastName || "Unknown User"}
                   </p>
                   <p className="text-sm text-slate-500">
                     Active since {new Date(em.triggeredAt).toLocaleTimeString()}

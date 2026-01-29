@@ -142,19 +142,19 @@ export default function FeedbackList() {
 
             {/* MEDIA */}
           {f.type === "AUDIO" && f.mediaUrl && (
-  <div className="mt-3">
-    <audio
-      controls
-      preload="none"
-      controlsList="nodownload noplaybackrate"
-      className="w-full"
-      onPlay={(e) => {
-        // pause all other audios (important UX)
-        document.querySelectorAll("audio").forEach((audio) => {
-          if (audio !== e.currentTarget) {
-            audio.pause();
-          }
-        });
+        <div className="mt-3">
+          <audio
+            controls
+            preload="none"
+            controlsList="nodownload noplaybackrate"
+            className="w-full"
+            onPlay={(e) => {
+              // pause all other audios (important UX)
+              document.querySelectorAll("audio").forEach((audio) => {
+                if (audio !== e.currentTarget) {
+                  audio.pause();
+                }
+              });
       }}
     >
       <source src={f.mediaUrl} type="audio/mpeg" />
