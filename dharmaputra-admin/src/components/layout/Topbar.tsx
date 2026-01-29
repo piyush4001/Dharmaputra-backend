@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Topbar() {
-  const { logout, user } = useAuth(); // assume user exists
+  const { logout } = useAuth(); // assume user exists
   const navigate = useNavigate();
 
   const handleLogout = () => {
