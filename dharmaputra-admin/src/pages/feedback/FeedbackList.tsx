@@ -141,13 +141,27 @@ export default function FeedbackList() {
             )}
 
             {/* MEDIA */}
-            {f.type === "AUDIO" && f.mediaUrl && (
-              <audio
-                controls
-                src={f.mediaUrl}
-                className="w-full mt-2"
-              />
-            )}
+          {f.type === "AUDIO" && f.mediaUrl && (
+  <div className="mt-3">
+    <audio
+      controls
+      preload="none"
+      controlsList="nodownload noplaybackrate"
+      className="w-full"
+      onPlay={(e) => {
+        // pause all other audios (important UX)
+        document.querySelectorAll("audio").forEach((audio) => {
+          if (audio !== e.currentTarget) {
+            audio.pause();
+          }
+        });
+      }}
+    >
+      <source src={f.mediaUrl} type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+)}
 
            {f.type === "VIDEO" && f.mediaUrl && (
   <div className="mt-3 max-w-md w-full">
