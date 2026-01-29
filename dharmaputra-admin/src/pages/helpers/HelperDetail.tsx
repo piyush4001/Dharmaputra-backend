@@ -39,7 +39,7 @@ export default function HelperDetail() {
   };
 
   const rejectHelper = async () => {
-    const confirm = window.confirm("Reject / disable this helper?");
+    const confirm = window.confirm("Reject / disable this Dharmaputra?");
     if (!confirm) return;
 
     await rejectHelperAPI(helper._id);
@@ -87,16 +87,14 @@ export default function HelperDetail() {
       {/* ACTIONS */}
       <div className="flex gap-3">
         {!helper.isVerified && helper.isActive && (
-          <Button onClick={approveHelper}>Verify Helper</Button>
+          <Button onClick={approveHelper}>Verify Dharmaputra</Button>
         )}
         {helper.isActive && (
           <Button variant="danger" onClick={rejectHelper}>
-            Reject Helper
+            Reject Dharmaputra
           </Button>
         )}
-        {/* {helper.idCardImage && (
-          <Button onClick={() => setShowIdCard(true)}>View ID Card</Button>
-        )} */}
+
         <Button onClick={() => setShowIdCard(true)}>View ID Card</Button>
       </div>
 
