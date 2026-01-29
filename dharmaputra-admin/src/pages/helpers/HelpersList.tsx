@@ -64,7 +64,7 @@ export default function HelpersList() {
 
   const deleteHelper = async (id: string) => {
     const confirm = window.confirm(
-      "Are you sure you want to delete (disable) this helper?"
+      "Are you sure you want to delete (disable) this Dharmaputra?"
     );
     if (!confirm) return;
 
@@ -83,7 +83,7 @@ export default function HelpersList() {
     <div className="bg-white rounded-xl shadow-sm p-6 space-y-4">
       {/* HEADER */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Helpers</h2>
+        <h2 className="text-xl font-semibold">Dharmaputra</h2>
 
         {/* 🔍 SEARCH */}
         <input
@@ -97,7 +97,7 @@ export default function HelpersList() {
 
       {/* TABLE */}
       {paginatedHelpers.length === 0 ? (
-        <p className="text-slate-500">No helpers found</p>
+        <p className="text-slate-500">No Dharmaputra found</p>
       ) : (
         <table className="w-full text-sm">
           <thead>

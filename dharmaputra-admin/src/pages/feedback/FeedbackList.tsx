@@ -20,13 +20,13 @@ export default function FeedbackList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [role, setRole] = useState<
-    "SENIOR" | "FAMILY" | "HELPER" | undefined
-  >(undefined);
+  const [role, setRole] = useState<"SENIOR" | "FAMILY" | "HELPER" | undefined>(
+    undefined
+  );
 
-  const [type, setType] = useState<
-    "TEXT" | "AUDIO" | "VIDEO" | undefined
-  >(undefined);
+  const [type, setType] = useState<"TEXT" | "AUDIO" | "VIDEO" | undefined>(
+    undefined
+  );
 
   const loadFeedbacks = async () => {
     try {
@@ -74,7 +74,7 @@ export default function FeedbackList() {
           <option value="">All Roles</option>
           <option value="SENIOR">Senior</option>
           <option value="FAMILY">Family</option>
-          <option value="HELPER">Helper</option>
+          <option value="HELPER">Dharmaputra</option>
         </select>
 
         <select
@@ -98,9 +98,7 @@ export default function FeedbackList() {
         </div>
       )}
 
-      {error && (
-        <div className="text-center text-red-500 py-10">{error}</div>
-      )}
+      {error && <div className="text-center text-red-500 py-10">{error}</div>}
 
       {!loading && feedbacks.length === 0 && (
         <div className="text-center text-slate-500 py-10">
@@ -141,34 +139,34 @@ export default function FeedbackList() {
             )}
 
             {/* MEDIA */}
-          {f.type === "AUDIO" && f.mediaUrl && (
-        <div className="mt-3">
-          <audio
-            controls
-            preload="none"
-            controlsList="nodownload noplaybackrate"
-            className="w-full"
-            onPlay={(e) => {
-              // pause all other audios (important UX)
-              document.querySelectorAll("audio").forEach((audio) => {
-                if (audio !== e.currentTarget) {
-                  audio.pause();
-                }
-              });
-      }}
-    >
-      <source src={f.mediaUrl} type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
-  </div>
-)}
+            {f.type === "AUDIO" && f.mediaUrl && (
+              <div className="mt-3">
+                <audio
+                  controls
+                  preload="none"
+                  controlsList="nodownload noplaybackrate"
+                  className="w-full"
+                  onPlay={(e) => {
+                    // pause all other audios (important UX)
+                    document.querySelectorAll("audio").forEach((audio) => {
+                      if (audio !== e.currentTarget) {
+                        audio.pause();
+                      }
+                    });
+                  }}
+                >
+                  <source src={f.mediaUrl} type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            )}
 
-           {f.type === "VIDEO" && f.mediaUrl && (
-  <div className="mt-3 max-w-md w-full">
-    <video
-      controls
-      src={f.mediaUrl}
-      className="
+            {f.type === "VIDEO" && f.mediaUrl && (
+              <div className="mt-3 max-w-md w-full">
+                <video
+                  controls
+                  src={f.mediaUrl}
+                  className="
         w-full
         rounded-xl
         border
@@ -177,10 +175,9 @@ export default function FeedbackList() {
         object-cover
         bg-black
       "
-    />
-  </div>
-)}
-
+                />
+              </div>
+            )}
           </div>
         ))}
       </div>
