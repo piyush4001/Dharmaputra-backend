@@ -21,6 +21,7 @@ import ResolvedEmergencies from "./pages/live/ResolvedEmergencies";
 function App() {
   return (
     <BrowserRouter>
+
       <AuthProvider>
         <Routes>
           {/* ROOT */}
