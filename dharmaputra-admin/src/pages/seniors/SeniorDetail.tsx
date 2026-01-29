@@ -6,7 +6,6 @@ import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import {
   fetchSeniorByIdAPI,
   fetchFamiliesBySeniorAPI,
-  approveSeniorAPI,
 } from "../../api/admin.api";
 
 export default function SeniorDetail() {
