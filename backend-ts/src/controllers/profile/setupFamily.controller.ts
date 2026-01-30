@@ -1,102 +1,239 @@
-import { Response } from "express";
-import fs from "fs";
-import { AuthRequest } from "../../middlewares/auth.middleware";
-import { FamilyProfile } from "../../models/Role/FamilyProfile.model";
-import { User } from "../../models/User.model";
-import { uploadImage } from "../../utils/cloudinary";
+// import { Response } from "express";
+// import fs from "fs";
+// import { AuthRequest } from "../../middlewares/auth.middleware";
+// import { FamilyProfile } from "../../models/Role/FamilyProfile.model";
+// import { User } from "../../models/User.model";
+// import { uploadImage } from "../../utils/cloudinary";
+
+// export const setupFamilyProfile = async (
+//   req: AuthRequest,
+//   res: Response
+// ) => {
+//   try {
+//     const { userId, role } = req.auth!;
+
+//     // 🔐 Only family users can create profile
+//     // if (role !== "FAMILY" && role !== "family" ) {
+//     //   return res.status(403).json({
+//     //     message: "Only family users can create family profile",
+//     //   });
+//     // }
+//      if (role?.toLowerCase() !== "family") {
+//       return res.status(403).json({
+//         message: "Only family users can create family profile",
+//       });
+//     }
+
+
+//     const {
+//       firstName,
+//       lastName,
+//       address, // structured address object from frontend
+//     } = req.body;
+
+//     if (!firstName || !lastName) {
+//       return res.status(400).json({
+//         message: "First name and last name are required",
+//       });
+//     }
+
+//     if (!req.file) {
+//       return res.status(400).json({
+//         message: "Profile image is required",
+//       });
+//     }
+
+//     // 🚫 Prevent duplicate profile setup
+//     const existingProfile = await FamilyProfile.findOne({ userId });
+//     if (existingProfile) {
+//       return res.status(409).json({
+//         message: "Family profile already exists",
+//       });
+//     }
+
+//     // 📞 Phone from User (OTP source of truth)
+//     const user = await User.findById(userId).select("phone");
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "User not found",
+//       });
+//     }
+
+//     // ☁️ Upload profile image
+//  let uploaded;
+// try {
+//   uploaded = await uploadImage(req.file.path);
+// } finally {
+//   if (req.file?.path && fs.existsSync(req.file.path)) {
+//     fs.unlinkSync(req.file.path);
+//   }
+// }
+
+
+
+//     /**
+//      * Address is OPTIONAL
+//      * Can come from:
+//      * - current location (lat/lng + reverse geocode)
+//      * - manual user input
+//      */
+//     const formattedAddress = address
+//   ? {
+//       fullAddress: address.fullAddress,
+//       city: address.city,
+//       district: address.district,
+//       state: address.state,
+//       country: address.country,
+//       postalCode: address.postalCode,
+//       ...(address.latitude != null &&
+//         address.longitude != null && {
+//           location: {
+//             type: "Point",
+//             coordinates: [address.longitude, address.latitude],
+//           },
+//         }),
+//     }
+//   : undefined;
+
+
+//     // ✅ Create family profile
+//     const profile = await FamilyProfile.create({
+//       userId,
+//       firstName,
+//       lastName,
+//       address: formattedAddress,
+//       phone: user.phone,
+//       profileImage: uploaded.secure_url,
+//       seniorIds: [],
+//     });
+
+//     return res.status(201).json({
+//       message: "Family profile created successfully",
+//       profile,
+//     });
+//   } catch (error) {
+//     console.error("setupFamilyProfile error:", error);
+//     return res.status(500).json({
+//       message: "Failed to setup family profile",
+//     });
+//   }
+// };
+
+import { Response } from 'express';
+import fs from 'fs';
+import { AuthRequest } from '../../middlewares/auth.middleware';
+import { FamilyProfile } from '../../models/Role/FamilyProfile.model';
+import { User } from '../../models/User.model';
+import { uploadImage } from '../../utils/cloudinary';
 
 export const setupFamilyProfile = async (
   req: AuthRequest,
-  res: Response
+  res: Response,
 ) => {
   try {
-    const { userId, role } = req.auth!;
+    /* ================= AUTH ================= */
 
-    // 🔐 Only family users can create profile
-    // if (role !== "FAMILY" && role !== "family" ) {
-    //   return res.status(403).json({
-    //     message: "Only family users can create family profile",
-    //   });
-    // }
-     if (role?.toLowerCase() !== "family") {
-      return res.status(403).json({
-        message: "Only family users can create family profile",
+    const userId = req.auth?.userId;
+    const role = req.auth?.role;
+
+    if (!userId || !role) {
+      return res.status(401).json({
+        message: 'Invalid auth token',
       });
     }
 
+    // ✅ FINAL FIX: normalize role comparison
+    if (role.toLowerCase() !== 'family') {
+      return res.status(403).json({
+        message: 'Only family users can create family profile',
+      });
+    }
 
-    const {
-      firstName,
-      lastName,
-      address, // structured address object from frontend
-    } = req.body;
+    /* ================= BODY ================= */
+
+    const { firstName, lastName, address } = req.body;
 
     if (!firstName || !lastName) {
       return res.status(400).json({
-        message: "First name and last name are required",
+        message: 'First name and last name are required',
       });
     }
 
     if (!req.file) {
       return res.status(400).json({
-        message: "Profile image is required",
+        message: 'Profile image is required',
       });
     }
 
-    // 🚫 Prevent duplicate profile setup
+    /* ================= DUPLICATE CHECK ================= */
+
     const existingProfile = await FamilyProfile.findOne({ userId });
     if (existingProfile) {
       return res.status(409).json({
-        message: "Family profile already exists",
+        message: 'Family profile already exists',
       });
     }
 
-    // 📞 Phone from User (OTP source of truth)
-    const user = await User.findById(userId).select("phone");
+    /* ================= USER ================= */
+
+    const user = await User.findById(userId).select('phone');
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: 'User not found',
       });
     }
 
-    // ☁️ Upload profile image
- let uploaded;
-try {
-  uploaded = await uploadImage(req.file.path);
-} finally {
-  if (req.file?.path && fs.existsSync(req.file.path)) {
-    fs.unlinkSync(req.file.path);
-  }
-}
+    /* ================= IMAGE UPLOAD ================= */
 
-
-
-    /**
-     * Address is OPTIONAL
-     * Can come from:
-     * - current location (lat/lng + reverse geocode)
-     * - manual user input
-     */
-    const formattedAddress = address
-  ? {
-      fullAddress: address.fullAddress,
-      city: address.city,
-      district: address.district,
-      state: address.state,
-      country: address.country,
-      postalCode: address.postalCode,
-      ...(address.latitude != null &&
-        address.longitude != null && {
-          location: {
-            type: "Point",
-            coordinates: [address.longitude, address.latitude],
-          },
-        }),
+    let uploaded;
+    try {
+      uploaded = await uploadImage(req.file.path);
+    } finally {
+      if (req.file.path && fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
     }
-  : undefined;
 
+    /* ================= ADDRESS (multipart-safe) ================= */
 
-    // ✅ Create family profile
+    let formattedAddress: any = undefined;
+
+    if (address) {
+      let parsedAddress: any;
+
+      try {
+        parsedAddress =
+          typeof address === 'string'
+            ? JSON.parse(address)
+            : address;
+      } catch {
+        return res.status(400).json({
+          message: 'Invalid address format',
+        });
+      }
+
+      formattedAddress = {
+        fullAddress: parsedAddress.fullAddress,
+        city: parsedAddress.city,
+        district: parsedAddress.district,
+        state: parsedAddress.state,
+        country: parsedAddress.country,
+        postalCode: parsedAddress.postalCode,
+        ...(parsedAddress.latitude != null &&
+          parsedAddress.longitude != null && {
+            location: {
+              type: 'Point',
+              coordinates: [
+                parsedAddress.longitude,
+                parsedAddress.latitude,
+              ],
+            },
+          }),
+      };
+    }
+
+    /* ================= CREATE PROFILE ================= */
+
     const profile = await FamilyProfile.create({
       userId,
       firstName,
@@ -108,13 +245,13 @@ try {
     });
 
     return res.status(201).json({
-      message: "Family profile created successfully",
+      message: 'Family profile created successfully',
       profile,
     });
   } catch (error) {
-    console.error("setupFamilyProfile error:", error);
+    console.error('❌ setupFamilyProfile error:', error);
     return res.status(500).json({
-      message: "Failed to setup family profile",
+      message: 'Failed to setup family profile',
     });
   }
 };
