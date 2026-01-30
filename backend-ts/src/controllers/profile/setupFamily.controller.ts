@@ -13,11 +13,17 @@ export const setupFamilyProfile = async (
     const { userId, role } = req.auth!;
 
     // 🔐 Only family users can create profile
-    if (role !== "FAMILY") {
+    // if (role !== "FAMILY" && role !== "family" ) {
+    //   return res.status(403).json({
+    //     message: "Only family users can create family profile",
+    //   });
+    // }
+     if (role?.toLowerCase() !== "family") {
       return res.status(403).json({
         message: "Only family users can create family profile",
       });
     }
+
 
     const {
       firstName,
